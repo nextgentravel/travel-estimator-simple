@@ -1,0 +1,243 @@
+<template>
+  <div class="container">
+    <br>
+    <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{moment(departDate).format('MMM D')}} - {{moment(returnDate).format('D, YYYY')}}</h2>
+    <br>
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-5">
+                <div class="form-check">
+                  <input v-model="accommodationSelected" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="exampleCheck1">Accommodations</label>
+                </div>
+              </div>
+              <div class="col-sm-5">
+                  <select v-model="accommodationType" id="inputState" class="form-control">
+                    <option selected>Hotel</option>
+                    <option>AirBnb</option>
+                    <option>Bed & Breakfast</option>
+                    <option>Other</option>
+                  </select>
+              </div>
+              <div class="col-sm-2"><input v-model="accommodationAmount" class="form-control" /></div>
+            </div>
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-5">
+                <div class="form-check">
+                  <input v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="exampleCheck1">Meals and Incidentals</label>
+                </div>
+              </div>
+              <div class="col-sm-5">
+                <a href="#">Select meals to include</a>
+              </div>
+              <div class="col-sm-2"><input v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
+            </div>
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-5">
+                <div class="form-check">
+                  <input v-model="transportationSelected" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="exampleCheck1">Transportation (Flight, Rail)</label>
+                </div>
+              </div>
+              <div class="col-sm-5">
+              </div>
+              <div class="col-sm-2"><input v-model="transportationAmount" class="form-control" /></div>
+            </div>
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input v-model="groundTransportationSelected" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="exampleCheck1">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
+                </div>
+              </div>
+              <div class="col-sm-2"><input v-model="groundTransportationAmount" class="form-control" /></div>
+            </div>
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-5">
+                <div class="form-check">
+                  <input v-model="otherSelected" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="exampleCheck1">Other</label>
+                  <small id="emailHelp" class="form-text text-muted">not included in estimate</small>
+                </div>
+              </div>
+              <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
+              <div class="col-sm-2"><input v-model="otherAmount" class="form-control" /></div>
+            </div>
+            <hr>
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-12">
+                <button @click="calculate()" class="btn btn-primary" style="float: right;">Calculate</button>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom: 15px; align-items: center;">
+              <div class="col-sm-12">
+                <p style="float: right;">${{calculatedTotal}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h5>How did we get these numbers?</h5>
+        <p>City rate limits are outlined in the <a href="#">Accommodation and Car Rental Directory</a></p>
+        <p>Non-commercial accommodation, meals and incidental allowances are outlined in the <a href="#">National Joint Council Travel Directive - Appendix C</a></p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import moment from 'moment'
+export default {
+  name: 'Calculator',
+  mounted() {
+  },
+  data: function() {
+    return {
+      moment
+    }
+  },
+  methods: {
+    calculate: function() {
+      let amount = parseFloat(this.accommodationAmount) +
+                parseFloat(this.mealsAndIncidentalsAmount) +
+                parseFloat(this.transportationAmount) +
+                parseFloat(this.groundTransportationAmount) +
+                parseFloat(this.otherAmount);
+      this.calculatedTotal = amount;
+    }
+  },
+  computed: {
+    perDiem () {
+      return this.$store.state.perDiem
+    },
+    origin () {
+      return this.$store.state.origin
+    },
+    destination () {
+      return this.$store.state.destination
+    },
+    departDate () {
+      return this.$store.state.departDate
+    },
+    returnDate () {
+      return this.$store.state.returnDate
+    },
+    acrdResponse () {
+      return this.$store.state.acrdResponse
+    },
+    accommodationSelected: {
+      get() {
+        return this.$store.state.estimate.accommodation.selected
+      },
+      set(value) {
+        this.$store.commit('updateAccommodationSelected', value)
+      }
+    },
+    mealsAndIncidentalsSelected: {
+      get() {
+        return this.$store.state.estimate.mealsAndIncidentals.selected
+      },
+      set(value) {
+        this.$store.commit('updateMealsAndIncidentalsSelected', value)
+      }
+    },
+    transportationSelected: {
+      get() {
+        return this.$store.state.estimate.transportation.selected
+      },
+      set(value) {
+        this.$store.commit('updateTransportationSelected', value)
+      }
+    },
+    groundTransportationSelected: {
+      get() {
+        return this.$store.state.estimate.groundTransportation.selected
+      },
+      set(value) {
+        this.$store.commit('updateGroundTransportationSelected', value)
+      }
+    },
+    otherSelected: {
+      get() {
+        return this.$store.state.estimate.other.selected
+      },
+      set(value) {
+        this.$store.commit('updateOtherSelected', value)
+      }
+    },
+    otherDescription: {
+      get() {
+        return this.$store.state.estimate.other.description
+      },
+      set(value) {
+        this.$store.commit('updateOtherDescription', value)
+      }
+    },
+    otherAmount: {
+      get() {
+        return this.$store.state.estimate.other.amount
+      },
+      set(value) {
+        this.$store.commit('updateOtherAmount', value)
+      }
+    },
+    accommodationType: {
+      get() {
+        return this.$store.state.estimate.accommodation.type
+      },
+      set(value) {
+        this.$store.commit('updateAccommodationType', value)
+      }
+    },
+    accommodationAmount: {
+      get() {
+        return this.$store.state.estimate.accommodation.amount
+      },
+      set(value) {
+        this.$store.commit('updateAccommodationAmount', value)
+      }
+    },
+    mealsAndIncidentalsAmount: {
+      get() {
+        return this.$store.state.estimate.mealsAndIncidentals.amount
+      },
+      set(value) {
+        this.$store.commit('updateMealsAndIncidentalsAmount', value)
+      }
+    },
+    transportationAmount: {
+      get() {
+        return this.$store.state.estimate.transportation.amount
+      },
+      set(value) {
+        this.$store.commit('updateTransportationAmount', value)
+      }
+    },
+    groundTransportationAmount: {
+      get() {
+        return this.$store.state.estimate.groundTransportation.amount
+      },
+      set(value) {
+        this.$store.commit('updateGroundTransportationAmount', value)
+      }
+    },
+    calculatedTotal: {
+      get() {
+        return this.$store.state.calculatedTotal
+      },
+      set(value) {
+        this.$store.commit('updateCalculatedTotal', value)
+      }
+    },
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+</style>
