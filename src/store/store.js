@@ -20,8 +20,8 @@ export default new Vuex.Store({
     noteToApprover: "",
     acrdResponse: "",
     estimate: {
-        accommodation: { selected: false, amount: 0, type: "Hotel" },
-        mealsAndIncidentals: { selected: false, amount: 0, type: ""},
+        accommodation: { selected: true, amount: 0, type: "Hotel" },
+        mealsAndIncidentals: { selected: true, amount: 0, type: ""},
         transportation: { selected: false, amount: 0},
         groundTransportation: { selected: false, amount: 0},
         other: { selected: false, amount: 0, description: ""},
