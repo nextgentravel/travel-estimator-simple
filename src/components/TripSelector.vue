@@ -46,22 +46,6 @@
       </div>
 
       <div class="form-group">
-        <label for="purposeInput" class="">Purpose of Trip (optional)</label>
-        <div class="form-check">
-          <input v-model="training" class="form-check-input" type="checkbox" value="" id="training">
-          <label class="form-check-label" for="training">
-            Training
-          </label>
-        </div>
-        <div class="form-check">
-          <input v-model="conference" class="form-check-input" type="checkbox" value="" id="conference">
-          <label class="form-check-label" for="conference">
-            Conference
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group">
         <button class="btn btn-primary" v-on:click="submitTrip">Create Estimate</button>
       </div>
     </div>
