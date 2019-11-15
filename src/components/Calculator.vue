@@ -22,7 +22,7 @@
                     <option>Other</option>
                   </select>
               </div>
-              <div class="col-sm-2"><input v-model="accommodationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @blur="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
@@ -34,7 +34,7 @@
               <div class="col-sm-5">
                 <a href="#">Select meals to include</a>
               </div>
-              <div class="col-sm-2"><input v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @blur="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
@@ -45,7 +45,7 @@
               </div>
               <div class="col-sm-5">
               </div>
-              <div class="col-sm-2"><input v-model="transportationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @blur="transportationSelectHandler" v-model="transportationAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-10">
@@ -54,7 +54,7 @@
                   <label class="form-check-label" for="exampleCheck1">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
                 </div>
               </div>
-              <div class="col-sm-2"><input v-model="groundTransportationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @blur="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
@@ -65,7 +65,7 @@
                 </div>
               </div>
               <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
-              <div class="col-sm-2"><input v-model="otherAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @blur="otherSelectHandler" v-model="otherAmount" class="form-control" /></div>
             </div>
             <hr>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
@@ -96,6 +96,9 @@ export default {
   name: 'Calculator',
   mounted() {
     this.setAccomodationTotal();
+    this.setMealsIncidentalsTotal();
+    this.accommodationSelectHandler();
+    this.mealsAndIncidentalsSelectHandler();
   },
   data: function() {
     return {
@@ -118,7 +121,70 @@ export default {
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
       this.accommodationAmount = parseFloat(amount.replace(/\$/g, '')) * numberOfDays;
-    }
+    },
+    setMealsIncidentalsTotal: function() {
+      let destinationProvinceCode = this.destination.slice(-2)
+
+      let breakfastRate = 0;
+      let lunchRate = 0;
+      let dinnerRate = 0;
+      let incidentalRate = 0;
+
+      if (destinationProvinceCode === "YT" || destinationProvinceCode === "TN" || destinationProvinceCode === "NU") {
+        breakfastRate = this.mealsAndIncidentals[destinationProvinceCode].breakfast
+        lunchRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
+        dinnerRate = this.mealsAndIncidentals[destinationProvinceCode].dinner
+        incidentalRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
+      } else {
+        breakfastRate = this.mealsAndIncidentals["CAN"].breakfast
+        lunchRate = this.mealsAndIncidentals["CAN"].lunch
+        dinnerRate = this.mealsAndIncidentals["CAN"].dinner
+        incidentalRate = this.mealsAndIncidentals["CAN"].lunch
+      }
+
+      var departDate = moment(this.departDate);
+      var returnDate = moment(this.returnDate);
+      let numberOfDays = returnDate.diff(departDate, 'days')
+
+      this.mealsAndIncidentalsAmount = (breakfastRate + lunchRate + dinnerRate + incidentalRate) * numberOfDays;
+    },
+    accommodationSelectHandler: function () {
+      if (this.accommodationAmount > 0) {
+        this.accommodationSelected = true;
+      } else {
+        this.accommodationSelected = false;
+      }
+    },
+    transportationSelectHandler: function () {
+      if (this.transportationAmount > 0) {
+        this.transportationSelected = true;
+      } else {
+        this.transportationSelected = false;
+      }
+    },
+    mealsAndIncidentalsSelectHandler: function () {
+      if (this.mealsAndIncidentalsAmount > 0) {
+        this.mealsAndIncidentalsSelected = true;
+      } else {
+        this.mealsAndIncidentalsSelected = false;
+      }
+    },
+    groundTransportationSelectHandler: function () {
+      if (this.groundTransportationAmount > 0) {
+        this.groundTransportationSelected = true;
+      } else {
+        this.groundTransportationSelected = false;
+      }
+    },
+    otherSelectHandler: function () {
+      if (this.otherAmount > 0) {
+        this.otherSelected = true;
+      } else {
+        this.otherSelected = false;
+      }
+    },
+
+
   },
   computed: {
     travelMonth () {
@@ -126,6 +192,9 @@ export default {
     },
     acrdRate () {
       return this.$store.state.acrdResponse
+    },
+    mealsAndIncidentals () {
+      return this.$store.state.mealsAndIncidentals
     },
     perDiem () {
       return this.$store.state.perDiem
