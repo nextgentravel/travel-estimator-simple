@@ -95,6 +95,7 @@ import moment from 'moment'
 export default {
   name: 'Calculator',
   mounted() {
+    this.setAccomodationTotal();
   },
   data: function() {
     return {
@@ -109,9 +110,23 @@ export default {
                 parseFloat(this.groundTransportationAmount) +
                 parseFloat(this.otherAmount);
       this.calculatedTotal = amount;
+    },
+    setAccomodationTotal: function() {
+      let amount = this.acrdRate[this.travelMonth];
+
+      var departDate = moment(this.departDate);
+      var returnDate = moment(this.returnDate);
+      let numberOfDays = returnDate.diff(departDate, 'days')
+      this.accommodationAmount = parseFloat(amount.replace(/\$/g, '')) * numberOfDays;
     }
   },
   computed: {
+    travelMonth () {
+      return moment(this.$store.state.departDate).subtract(1, "month").startOf("month").format('MMMM')
+    },
+    acrdRate () {
+      return this.$store.state.acrdResponse
+    },
     perDiem () {
       return this.$store.state.perDiem
     },
@@ -232,6 +247,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateCalculatedTotal', value)
+      }
+    },
+    accommodationTotal: {
+      get() {
+        return this.$store.state.accommodationTotal
+      },
+      set(value) {
+        this.$store.commit('updateAccommodationTotal', value)
       }
     },
   }

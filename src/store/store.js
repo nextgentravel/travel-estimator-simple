@@ -100,7 +100,9 @@ export default new Vuex.Store({
     updateCalculatedTotal (state, calculatedTotal) {
         state.calculatedTotal = calculatedTotal
     },
-
+    updateAccommodationTotal (state, accommodationTotal) {
+        state.accommodationTotal = accommodationTotal
+    },
   },
   
   actions: {
