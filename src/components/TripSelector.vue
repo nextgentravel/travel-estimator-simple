@@ -97,9 +97,9 @@
           .then(response => response.json())
           .then(data => {
             this.haveResult = true
-            this.$store.commit('showCalculator', true)
             this.$store.commit('updateAcrdResponse', data)
           })
+        this.$router.push({ path: 'calculate' })
       },
       fetchData() {
         this.error = this.post = null

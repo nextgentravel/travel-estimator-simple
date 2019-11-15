@@ -10,7 +10,6 @@ export default new Vuex.Store({
     destination: null,
     departDate: null,
     returnDate: null,
-    showCalculator: false,
     perDiem: {
         dailyRate: 0,
     },
@@ -68,9 +67,6 @@ export default new Vuex.Store({
     },
     updateReturnDate (state, returnDate) {
         state.returnDate = returnDate
-    },
-    showCalculator (state, showCalculator) {
-        state.showCalculator = showCalculator
     },
     updateCity (state, cities) {
         state.cities = cities
