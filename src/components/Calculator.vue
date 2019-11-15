@@ -95,7 +95,7 @@ import moment from 'moment'
 export default {
   name: 'Calculator',
   mounted() {
-    this.setAccomodationTotal();
+    this.setAccommodationTotal();
     this.setMealsIncidentalsTotal();
     this.accommodationSelectHandler();
     this.mealsAndIncidentalsSelectHandler();
@@ -114,9 +114,8 @@ export default {
                 parseFloat(this.otherAmount);
       this.calculatedTotal = amount;
     },
-    setAccomodationTotal: function() {
+    setAccommodationTotal: function() {
       let amount = this.acrdRate[this.travelMonth];
-
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
