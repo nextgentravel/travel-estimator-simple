@@ -22,7 +22,7 @@
                     <option>Other</option>
                   </select>
               </div>
-              <div class="col-sm-2"><input @blur="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
@@ -34,7 +34,7 @@
               <div class="col-sm-5">
                 <a href="#">Select meals to include</a>
               </div>
-              <div class="col-sm-2"><input @blur="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
@@ -45,7 +45,7 @@
               </div>
               <div class="col-sm-5">
               </div>
-              <div class="col-sm-2"><input @blur="transportationSelectHandler" v-model="transportationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="transportationSelectHandler" v-model="transportationAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-10">
@@ -65,7 +65,7 @@
                 </div>
               </div>
               <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
-              <div class="col-sm-2"><input @blur="otherSelectHandler" v-model="otherAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" /></div>
             </div>
             <hr>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
