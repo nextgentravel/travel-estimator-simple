@@ -9,17 +9,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>{{mealsAndIncidentalsAmount}}</span>
                 <div class="row" v-for="(day, index) in mealsByDay" :key="`day-${index}`">
-                    <div class="col-sm"><strong>{{index}}  {{day.day}}</strong></div>
+                    <div class="col-sm"><strong>{{day.day}}</strong></div>
                     <div class="col-sm"><input v-model="mealsByDay[index].breakfast" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> Breakfast</div>
                     <div class="col-sm"><input v-model="mealsByDay[index].lunch" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> Lunch</div>
                     <div class="col-sm"><input v-model="mealsByDay[index].dinner" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> Dinner</div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary">Close</button>
+                <button type="button" class="btn btn-primary" @click="showMealsModal = false">Close</button>
             </div>
             </div>
         </div>
@@ -45,6 +43,14 @@ export default {
   methods: {
   },
   computed: {
+    showMealsModal: {
+      get() {
+        return this.$store.state.showMealsModal
+      },
+      set(value) {
+        this.$store.commit('updateShowMealsModal', value)
+      }
+    },
     mealsByDay: {
       get() {
         return this.$store.state.mealsByDay
