@@ -54,7 +54,7 @@
                   <label class="form-check-label" for="exampleCheck1">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
                 </div>
               </div>
-              <div class="col-sm-2"><input @blur="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
