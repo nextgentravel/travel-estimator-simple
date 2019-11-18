@@ -160,21 +160,12 @@ export default {
             incidentalRate = this.mealsAndIncidentals["CAN"].incidentals
           }
           let mealsAndIncidentalsTotal = 0;
-          console.log(this.mealsByDay)
           for (let i = 0; i < this.mealsByDay.length; i++) {
-            console.log('breakfast: ', this.mealsByDay[i].breakfast)
-            console.log('lunch: ', this.mealsByDay[i].lunch)
-            console.log('dinner: ', this.mealsByDay[i].dinner)
             this.mealsByDay[i].breakfast ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + breakfastRate : null
             this.mealsByDay[i].lunch ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + lunchRate : null
             this.mealsByDay[i].dinner ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + dinnerRate : null
             mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + incidentalRate
           }
-
-          console.log('breakfastRate', breakfastRate)
-          console.log('lunchRate', lunchRate)
-          console.log('dinnerRate', dinnerRate)
-          console.log('incidentalRate', incidentalRate)
 
           this.mealsAndIncidentalsAmount = mealsAndIncidentalsTotal.toFixed(2)
           this.calculate();
