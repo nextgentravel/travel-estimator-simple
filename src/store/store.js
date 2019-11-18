@@ -53,9 +53,14 @@ export default new Vuex.Store({
             dinner: 50.55,
             incidentals: 17.30
         },
-    }
+    },
+    mealsByDay: [],
   },
+  
   mutations: {
+    updateMealsByDay (state, mealsByDay) {
+        state.mealsByDay = mealsByDay
+    },
     updateOrigin (state, origin) {
         state.origin = origin
     },

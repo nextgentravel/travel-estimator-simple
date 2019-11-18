@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <MealsModal v-if="showMealsModal = true" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
     <br>
     <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{moment(departDate).format('MMM D')}} - {{moment(returnDate).format('D, YYYY')}}</h2>
     <br>
@@ -92,17 +93,23 @@
 
 <script>
 import moment from 'moment'
+import MealsModal from './MealsModal'
 export default {
   name: 'Calculator',
+  components: {
+    MealsModal
+  },
   mounted() {
     this.setAccommodationTotal();
-    this.setMealsIncidentalsTotal();
+    this.setMealsIncidentals();
+    this.calculateMealsIncidentals();
     this.accommodationSelectHandler();
     this.mealsAndIncidentalsSelectHandler();
   },
   data: function() {
     return {
-      moment
+      moment,
+      showMealsModal: true,
     }
   },
   methods: {
@@ -121,31 +128,58 @@ export default {
       let numberOfDays = returnDate.diff(departDate, 'days')
       this.accommodationAmount = parseFloat(amount.replace(/\$/g, '')) * numberOfDays;
     },
-    setMealsIncidentalsTotal: function() {
-      let destinationProvinceCode = this.destination.slice(-2)
-
-      let breakfastRate = 0;
-      let lunchRate = 0;
-      let dinnerRate = 0;
-      let incidentalRate = 0;
-
-      if (destinationProvinceCode === "YT" || destinationProvinceCode === "TN" || destinationProvinceCode === "NU") {
-        breakfastRate = this.mealsAndIncidentals[destinationProvinceCode].breakfast
-        lunchRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
-        dinnerRate = this.mealsAndIncidentals[destinationProvinceCode].dinner
-        incidentalRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
-      } else {
-        breakfastRate = this.mealsAndIncidentals["CAN"].breakfast
-        lunchRate = this.mealsAndIncidentals["CAN"].lunch
-        dinnerRate = this.mealsAndIncidentals["CAN"].dinner
-        incidentalRate = this.mealsAndIncidentals["CAN"].lunch
-      }
-
+    setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
+      let mealsByDay = [];
 
-      this.mealsAndIncidentalsAmount = (breakfastRate + lunchRate + dinnerRate + incidentalRate) * numberOfDays;
+      for (let i = 0; i < numberOfDays + 1; i++) {
+        let day = moment(departDate).add(i, 'd').format("D MMM");
+        mealsByDay.push({ day: day, breakfast: true, lunch: true, dinner: true })
+      }
+
+      this.mealsByDay = mealsByDay;
+    },
+    calculateMealsIncidentals: function() {
+          let destinationProvinceCode = this.destination.slice(-2)
+
+          let breakfastRate = 0;
+          let lunchRate = 0;
+          let dinnerRate = 0;
+          let incidentalRate = 0;
+
+          if (destinationProvinceCode === "YT" || destinationProvinceCode === "TN" || destinationProvinceCode === "NU") {
+            breakfastRate = this.mealsAndIncidentals[destinationProvinceCode].breakfast
+            lunchRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
+            dinnerRate = this.mealsAndIncidentals[destinationProvinceCode].dinner
+            incidentalRate = this.mealsAndIncidentals[destinationProvinceCode].incidentals
+          } else {
+            breakfastRate = this.mealsAndIncidentals["CAN"].breakfast
+            lunchRate = this.mealsAndIncidentals["CAN"].lunch
+            dinnerRate = this.mealsAndIncidentals["CAN"].dinner
+            incidentalRate = this.mealsAndIncidentals["CAN"].incidentals
+          }
+          let mealsAndIncidentalsTotal = 0;
+          console.log(this.mealsByDay)
+          for (let i = 0; i < this.mealsByDay.length; i++) {
+            console.log('breakfast: ', this.mealsByDay[i].breakfast)
+            console.log('lunch: ', this.mealsByDay[i].lunch)
+            console.log('dinner: ', this.mealsByDay[i].dinner)
+            this.mealsByDay[i].breakfast ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + breakfastRate : null
+            this.mealsByDay[i].lunch ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + lunchRate : null
+            this.mealsByDay[i].dinner ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + dinnerRate : null
+            mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + incidentalRate
+          }
+
+          console.log('breakfastRate', breakfastRate)
+          console.log('lunchRate', lunchRate)
+          console.log('dinnerRate', dinnerRate)
+          console.log('incidentalRate', incidentalRate)
+
+          this.mealsAndIncidentalsAmount = mealsAndIncidentalsTotal
+          console.log('### FFF ###:', mealsAndIncidentalsTotal)
+
     },
     accommodationSelectHandler: function () {
       if (this.accommodationAmount > 0) {
@@ -219,6 +253,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateAccommodationSelected', value)
+      }
+    },
+    mealsByDay: {
+      get() {
+        return this.$store.state.mealsByDay
+      },
+      set(value) {
+        this.$store.commit('updateMealsByDay', value)
       }
     },
     mealsAndIncidentalsSelected: {
