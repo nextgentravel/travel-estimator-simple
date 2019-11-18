@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    showMealsModal: false,
     cities: [],
     origin: null,
     destination: null,
@@ -53,9 +54,17 @@ export default new Vuex.Store({
             dinner: 50.55,
             incidentals: 17.30
         },
-    }
+    },
+    mealsByDay: [],
   },
+  
   mutations: {
+    updateShowMealsModal (state, showMealsModal) {
+        state.showMealsModal = showMealsModal
+    },
+    updateMealsByDay (state, mealsByDay) {
+        state.mealsByDay = mealsByDay
+    },
     updateOrigin (state, origin) {
         state.origin = origin
     },

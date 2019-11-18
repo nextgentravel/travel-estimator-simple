@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <MealsModal v-if="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
     <br>
     <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{moment(departDate).format('MMM D')}} - {{moment(returnDate).format('D, YYYY')}}</h2>
     <br>
@@ -32,7 +33,7 @@
                 </div>
               </div>
               <div class="col-sm-5">
-                <a href="#">Select meals to include</a>
+                <a href="#" @click="showMealsModal = true">Select meals to include</a>
               </div>
               <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
             </div>
@@ -61,7 +62,7 @@
                 <div class="form-check">
                   <input v-model="otherSelected" type="checkbox" class="form-check-input">
                   <label class="form-check-label" for="exampleCheck1">Other</label>
-                  <small id="emailHelp" class="form-text text-muted">not included in estimate</small>
+                  <!-- <small id="emailHelp" class="form-text text-muted">not included in estimate</small> -->
                 </div>
               </div>
               <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
@@ -70,12 +71,12 @@
             <hr>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-                <button @click="calculate()" class="btn btn-primary" style="float: right;">Calculate</button>
+                <p style="float: right;">${{calculatedTotal}}</p>
               </div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-                <p style="float: right;">${{calculatedTotal}}</p>
+                <button class="btn btn-primary" style="float: right;">Submit</button>
               </div>
             </div>
           </div>
@@ -92,17 +93,22 @@
 
 <script>
 import moment from 'moment'
+import MealsModal from './MealsModal'
 export default {
   name: 'Calculator',
+  components: {
+    MealsModal
+  },
   mounted() {
     this.setAccommodationTotal();
-    this.setMealsIncidentalsTotal();
+    this.setMealsIncidentals();
+    this.calculateMealsIncidentals();
     this.accommodationSelectHandler();
     this.mealsAndIncidentalsSelectHandler();
   },
   data: function() {
     return {
-      moment
+      moment,
     }
   },
   methods: {
@@ -112,7 +118,7 @@ export default {
                 parseFloat(this.transportationAmount) +
                 parseFloat(this.groundTransportationAmount) +
                 parseFloat(this.otherAmount);
-      this.calculatedTotal = amount;
+      this.calculatedTotal = amount.toFixed(2);
     },
     setAccommodationTotal: function() {
       let amount = this.acrdRate[this.travelMonth];
@@ -121,31 +127,49 @@ export default {
       let numberOfDays = returnDate.diff(departDate, 'days')
       this.accommodationAmount = parseFloat(amount.replace(/\$/g, '')) * numberOfDays;
     },
-    setMealsIncidentalsTotal: function() {
-      let destinationProvinceCode = this.destination.slice(-2)
-
-      let breakfastRate = 0;
-      let lunchRate = 0;
-      let dinnerRate = 0;
-      let incidentalRate = 0;
-
-      if (destinationProvinceCode === "YT" || destinationProvinceCode === "TN" || destinationProvinceCode === "NU") {
-        breakfastRate = this.mealsAndIncidentals[destinationProvinceCode].breakfast
-        lunchRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
-        dinnerRate = this.mealsAndIncidentals[destinationProvinceCode].dinner
-        incidentalRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
-      } else {
-        breakfastRate = this.mealsAndIncidentals["CAN"].breakfast
-        lunchRate = this.mealsAndIncidentals["CAN"].lunch
-        dinnerRate = this.mealsAndIncidentals["CAN"].dinner
-        incidentalRate = this.mealsAndIncidentals["CAN"].lunch
-      }
-
+    setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
+      let mealsByDay = [];
 
-      this.mealsAndIncidentalsAmount = (breakfastRate + lunchRate + dinnerRate + incidentalRate) * numberOfDays;
+      for (let i = 0; i < numberOfDays + 1; i++) {
+        let day = moment(departDate).add(i, 'd').format("D MMM");
+        mealsByDay.push({ day: day, breakfast: true, lunch: true, dinner: true })
+      }
+
+      this.mealsByDay = mealsByDay;
+    },
+    calculateMealsIncidentals: function() {
+          let destinationProvinceCode = this.destination.slice(-2)
+
+          let breakfastRate = 0;
+          let lunchRate = 0;
+          let dinnerRate = 0;
+          let incidentalRate = 0;
+
+          if (destinationProvinceCode === "YT" || destinationProvinceCode === "TN" || destinationProvinceCode === "NU") {
+            breakfastRate = this.mealsAndIncidentals[destinationProvinceCode].breakfast
+            lunchRate = this.mealsAndIncidentals[destinationProvinceCode].lunch
+            dinnerRate = this.mealsAndIncidentals[destinationProvinceCode].dinner
+            incidentalRate = this.mealsAndIncidentals[destinationProvinceCode].incidentals
+          } else {
+            breakfastRate = this.mealsAndIncidentals["CAN"].breakfast
+            lunchRate = this.mealsAndIncidentals["CAN"].lunch
+            dinnerRate = this.mealsAndIncidentals["CAN"].dinner
+            incidentalRate = this.mealsAndIncidentals["CAN"].incidentals
+          }
+          let mealsAndIncidentalsTotal = 0;
+          for (let i = 0; i < this.mealsByDay.length; i++) {
+            this.mealsByDay[i].breakfast ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + breakfastRate : null
+            this.mealsByDay[i].lunch ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + lunchRate : null
+            this.mealsByDay[i].dinner ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + dinnerRate : null
+            mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + incidentalRate
+          }
+
+          this.mealsAndIncidentalsAmount = mealsAndIncidentalsTotal.toFixed(2)
+          this.calculate();
+
     },
     accommodationSelectHandler: function () {
       if (this.accommodationAmount > 0) {
@@ -153,6 +177,7 @@ export default {
       } else {
         this.accommodationSelected = false;
       }
+      this.calculate();
     },
     transportationSelectHandler: function () {
       if (this.transportationAmount > 0) {
@@ -160,6 +185,7 @@ export default {
       } else {
         this.transportationSelected = false;
       }
+      this.calculate();
     },
     mealsAndIncidentalsSelectHandler: function () {
       if (this.mealsAndIncidentalsAmount > 0) {
@@ -167,6 +193,7 @@ export default {
       } else {
         this.mealsAndIncidentalsSelected = false;
       }
+      this.calculate();
     },
     groundTransportationSelectHandler: function () {
       if (this.groundTransportationAmount > 0) {
@@ -174,6 +201,7 @@ export default {
       } else {
         this.groundTransportationSelected = false;
       }
+      this.calculate();
     },
     otherSelectHandler: function () {
       if (this.otherAmount > 0) {
@@ -181,6 +209,7 @@ export default {
       } else {
         this.otherSelected = false;
       }
+      this.calculate();
     },
 
 
@@ -213,12 +242,28 @@ export default {
     acrdResponse () {
       return this.$store.state.acrdResponse
     },
+    showMealsModal: {
+      get() {
+        return this.$store.state.showMealsModal
+      },
+      set(value) {
+        this.$store.commit('updateShowMealsModal', value)
+      }
+    },
     accommodationSelected: {
       get() {
         return this.$store.state.estimate.accommodation.selected
       },
       set(value) {
         this.$store.commit('updateAccommodationSelected', value)
+      }
+    },
+    mealsByDay: {
+      get() {
+        return this.$store.state.mealsByDay
+      },
+      set(value) {
+        this.$store.commit('updateMealsByDay', value)
       }
     },
     mealsAndIncidentalsSelected: {
