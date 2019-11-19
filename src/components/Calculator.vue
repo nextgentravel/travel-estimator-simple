@@ -394,7 +394,7 @@ export default {
         return this.$store.state.estimate.other.amount
       },
       set(value) {
-        if (isNaN(value) || value === "" || value===" ") { value = 0 }
+        if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateOtherAmount', parseFloat(value))
       }
     },
@@ -411,7 +411,7 @@ export default {
         return this.$store.state.estimate.accommodation.amount
       },
       set(value) {
-        if (isNaN(value) || value === "" || value===" ") { value = 0 }
+        if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateAccommodationAmount', parseFloat(value))
       }
     },
@@ -420,7 +420,7 @@ export default {
         return this.$store.state.estimate.mealsAndIncidentals.amount
       },
       set(value) {
-        if (isNaN(value) || value === "" || value===" ") { value = 0 }
+        if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateMealsAndIncidentalsAmount', parseFloat(value))
       }
     },
@@ -429,7 +429,7 @@ export default {
         return this.$store.state.estimate.transportation.amount
       },
       set(value) {
-        if (isNaN(value) || value === "" || value===" ") { value = 0 }
+        if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateTransportationAmount', parseFloat(value))
       }
     },
@@ -438,7 +438,7 @@ export default {
         return this.$store.state.estimate.groundTransportation.amount
       },
       set(value) {
-        if (isNaN(value) || value === "" || value===" ") { value = 0 }
+        if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateGroundTransportationAmount', parseFloat(value))
       }
     },
