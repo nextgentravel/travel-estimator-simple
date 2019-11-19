@@ -105,7 +105,7 @@
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-                <button class="btn btn-primary" style="float: right;">Submit</button>
+                <button onclick="window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link';" class="btn btn-primary" style="float: right;">Submit</button>
               </div>
             </div>
           </div>
