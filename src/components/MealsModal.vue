@@ -8,8 +8,8 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="row" v-for="(day, index) in mealsByDay" :key="`day-${index}`">
+        <div class="modal-body" style="margin-top: 10px;">
+          <div class="row mb-3" v-for="(day, index) in mealsByDay" :key="`day-${index}`">
             <div class="col-sm"><strong>{{day.day}}</strong></div>
             <div class="col-sm"><input v-bind:id="'breakfast' + index" v-model="mealsByDay[index].breakfast"
                 @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label
@@ -27,7 +27,7 @@
         </div>
         <div class="modal-footer">
           <div>
-            <div style="margin-bottom: 10px;">${{mealsAndIncidentalsAmount}}</div>
+            <div style="margin-bottom: 10px;">${{mealsAndIncidentalsAmount.toFixed(2)}}</div>
             <button type="button" class="btn btn-primary" @click="showMealsModal = false">Done</button>
           </div>
         </div>
