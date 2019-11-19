@@ -4,7 +4,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">De-select any meals that will be provided during your trip</h5>
-                <button type="button" class="close" aria-label="Close">
+                <button @click="showMealsModal = false" type="button" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
