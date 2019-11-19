@@ -134,6 +134,9 @@ export default new Vuex.Store({
     updateAccommodationTotal (state, accommodationTotal) {
         state.accommodationTotal = accommodationTotal
     },
+    updateNoteToApprover (state, noteToApprover) {
+        state.noteToApprover = noteToApprover
+    },
   },
   
   actions: {

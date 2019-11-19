@@ -11,7 +11,7 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="accommodationSelected" type="checkbox" class="form-check-input" id="accommodationSelected">
+                  <input @change="calculate()" v-model="accommodationSelected" type="checkbox" class="form-check-input" id="accommodationSelected">
                   <label class="form-check-label" for="accommodationSelected">Accommodations</label>
                 </div>
               </div>
@@ -21,24 +21,31 @@
                     <option>Private Accommodations</option>
                   </select>
               </div>
-              <div class="col-sm-2"><input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" /></div>
+              <div class="col-sm-2">
+                <input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" v-bind:class="{ warning: accommodationWarning }" />
+              </div>
+            </div>
+            <div v-if="accommodationWarning" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+              <div class="col-sm-12">
+                <small>Your request exceeds the <a href="#">city rate limit.</a></small>
+              </div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input" id="mealsAndIncidentalsSelected">
+                  <input @change="calculate()" v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input" id="mealsAndIncidentalsSelected">
                   <label class="form-check-label" for="mealsAndIncidentalsSelected">Meals and Incidentals</label>
                 </div>
               </div>
               <div class="col-sm-5">
                 <a href="#" @click="showMealsModal = true">Select meals to include</a>
               </div>
-              <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" disabled /></div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="transportationSelected" type="checkbox" class="form-check-input" id="transportationSelected">
+                  <input @change="calculate()" v-model="transportationSelected" type="checkbox" class="form-check-input" id="transportationSelected">
                   <label class="form-check-label" for="transportationSelected">Transportation (Flight, Rail)</label>
                 </div>
               </div>
@@ -49,7 +56,7 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-10">
                 <div class="form-check">
-                  <input v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
+                  <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
                   <label class="form-check-label" for="groundTransportationSelected">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
                 </div>
               </div>
@@ -58,7 +65,7 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="otherSelected" type="checkbox" class="form-check-input" id="otherSelected">
+                  <input @change="calculate()" v-model="otherSelected" type="checkbox" class="form-check-input" id="otherSelected">
                   <label class="form-check-label" for="otherSelected">Other</label>
                   <!-- <small id="emailHelp" class="form-text text-muted">not included in estimate</small> -->
                 </div>
@@ -69,7 +76,16 @@
             <hr>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-                <p style="float: right;">${{calculatedTotal}}</p>
+                <p style="float: right; font-size: 1.5em;" v-bind:class="{ warningText: accommodationWarning }">${{calculatedTotal}}</p>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom: 15px; align-items: center;" v-if="accommodationWarning">
+              <div class="col-sm-12">
+                <p>Warning - One of your requests exceeds established rates. You may want to add a note to your approver to explain your choice, or change the value above.</p>
+                <div class="form-group">
+                  <label for="noteToApprover" class="">Note to Approver</label>
+                  <textarea v-model="noteToApprover" class="form-control" id="noteToApprover" rows="3"></textarea>
+                </div>
               </div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
@@ -107,26 +123,42 @@ export default {
   data: function() {
     return {
       moment,
+      accommodationWarning: false,
     }
   },
   methods: {
     calculate: function() {
-      let amount = parseFloat(this.accommodationAmount) +
-                parseFloat(this.mealsAndIncidentalsAmount) +
-                parseFloat(this.transportationAmount) +
-                parseFloat(this.groundTransportationAmount) +
-                parseFloat(this.otherAmount);
+      let amount = 
+                (this.accommodationSelected ? parseFloat(this.accommodationAmount) : 0) +
+                (this.mealsAndIncidentalsSelected ? parseFloat(this.mealsAndIncidentalsAmount) : 0) +
+                (this.transportationSelected ? parseFloat(this.transportationAmount) : 0) +
+                (this.groundTransportationAmount ? parseFloat(this.groundTransportationAmount) : 0) +
+                (this.otherSelected ? parseFloat(this.otherAmount) : 0);
+                this.validateAccomodationTotal()
       this.calculatedTotal = amount.toFixed(2);
     },
-    setAccommodationTotal: function() {
-      let amount = parseInt(this.acrdRate[this.travelMonth].replace(/\$/g, ''));
-      if (this.accommodationType === "Private Accommodations") {
-        amount = 50
+    validateAccomodationTotal: function () {
+      let tripInfo = this.tripInfo();
+      if (this.accommodationAmount > (tripInfo.acrdRate * tripInfo.numberOfDays)) {
+        this.accommodationWarning = true;
+      } else {
+        this.accommodationWarning = false;
       }
+    },
+    tripInfo: function () {
+      let acrdRate = parseInt(this.acrdRate[this.travelMonth].replace(/\$/g, ''));
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
-      this.accommodationAmount = parseFloat(amount) * numberOfDays;
+      return { acrdRate, departDate, returnDate, numberOfDays }
+    },
+    setAccommodationTotal: function() {
+      let tripInfo = this.tripInfo();
+      let amount = tripInfo.acrdRate;
+      if (this.accommodationType === "Private Accommodations") {
+        amount = 50
+      }
+      this.accommodationAmount = parseFloat(amount) * tripInfo.numberOfDays;
     },
     setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
@@ -242,6 +274,14 @@ export default {
     },
     acrdResponse () {
       return this.$store.state.acrdResponse
+    },
+    noteToApprover: {
+      get() {
+        return this.$store.state.noteToApprover
+      },
+      set(value) {
+        this.$store.commit('updateNoteToApprover', value)
+      }
     },
     showMealsModal: {
       get() {
@@ -377,4 +417,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.warning {
+  border: 2px solid #FEC04F;
+}
+
+.warning:focus {
+  content: none !important;
+  -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 2px #FEC04F;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 0px 2px #FEC04F;
+}
+
+.warningText {
+  color: #FEC04F;
+}
+
 </style>
