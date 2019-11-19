@@ -10,16 +10,24 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label for="originInput" class="">From</label>
-            <autocomplete aria-label="Origin" :search="originSearch"
-              :get-result-value="getOriginValue">
+            <autocomplete
+              aria-label="Origin"
+              :search="originSearch"
+              :get-result-value="getOriginValue"
+              v-bind:default-value="origin"
+            >
             </autocomplete>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label for="destinationInput" class="">To</label>
-            <autocomplete aria-label="Destination" :search="destinationSearch"
-              :get-result-value="getDestinationValue">
+            <autocomplete 
+              aria-label="Destination"
+              :search="destinationSearch"
+              :get-result-value="getDestinationValue"
+              v-bind:default-value="destination"
+              >
             </autocomplete>
           </div>
         </div>
