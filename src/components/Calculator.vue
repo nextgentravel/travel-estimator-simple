@@ -11,8 +11,8 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="accommodationSelected" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="exampleCheck1">Accommodations</label>
+                  <input v-model="accommodationSelected" type="checkbox" class="form-check-input" id="accommodationSelected">
+                  <label class="form-check-label" for="accommodationSelected">Accommodations</label>
                 </div>
               </div>
               <div class="col-sm-5">
@@ -26,8 +26,8 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="exampleCheck1">Meals and Incidentals</label>
+                  <input v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input" id="mealsAndIncidentalsSelected">
+                  <label class="form-check-label" for="mealsAndIncidentalsSelected">Meals and Incidentals</label>
                 </div>
               </div>
               <div class="col-sm-5">
@@ -38,8 +38,8 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="transportationSelected" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="exampleCheck1">Transportation (Flight, Rail)</label>
+                  <input v-model="transportationSelected" type="checkbox" class="form-check-input" id="transportationSelected">
+                  <label class="form-check-label" for="transportationSelected">Transportation (Flight, Rail)</label>
                 </div>
               </div>
               <div class="col-sm-5">
@@ -49,8 +49,8 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-10">
                 <div class="form-check">
-                  <input v-model="groundTransportationSelected" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="exampleCheck1">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
+                  <input v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
+                  <label class="form-check-label" for="groundTransportationSelected">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
                 </div>
               </div>
               <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" /></div>
@@ -58,8 +58,8 @@
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
                 <div class="form-check">
-                  <input v-model="otherSelected" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="exampleCheck1">Other</label>
+                  <input v-model="otherSelected" type="checkbox" class="form-check-input" id="otherSelected">
+                  <label class="form-check-label" for="otherSelected">Other</label>
                   <!-- <small id="emailHelp" class="form-text text-muted">not included in estimate</small> -->
                 </div>
               </div>

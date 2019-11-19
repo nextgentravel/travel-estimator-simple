@@ -11,9 +11,9 @@
             <div class="modal-body">
                 <div class="row" v-for="(day, index) in mealsByDay" :key="`day-${index}`">
                     <div class="col-sm"><strong>{{day.day}}</strong></div>
-                    <div class="col-sm"><input v-model="mealsByDay[index].breakfast" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> Breakfast</div>
-                    <div class="col-sm"><input v-model="mealsByDay[index].lunch" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> Lunch</div>
-                    <div class="col-sm"><input v-model="mealsByDay[index].dinner" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> Dinner</div>
+                    <div class="col-sm"><input v-bind:id="'breakfast' + index" v-model="mealsByDay[index].breakfast" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label v-bind:for="'breakfast' + index">Breakfast</label></div>
+                    <div class="col-sm"><input v-bind:id="'lunch' + index" v-model="mealsByDay[index].lunch" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label v-bind:for="'lunch' + index">Lunch</label></div>
+                    <div class="col-sm"><input v-bind:id="'dinner' + index" v-model="mealsByDay[index].dinner" @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label v-bind:for="'dinner' + index">Dinner</label></div>
                 </div>
             </div>
             <div class="modal-footer">
