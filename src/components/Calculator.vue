@@ -27,7 +27,7 @@
             </div>
             <div v-if="accommodationWarning" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
               <div class="col-sm-12">
-                <small>Your request exceeds the <a href="#">city rate limit.</a></small>
+                <small>Your request exceeds the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">city rate limit.</a></small>
               </div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
@@ -77,7 +77,6 @@
                 <div class="form-check">
                   <input @change="calculate()" v-model="otherSelected" type="checkbox" class="form-check-input" id="otherSelected">
                   <label class="form-check-label" for="otherSelected">Other</label>
-                  <!-- <small id="emailHelp" class="form-text text-muted">not included in estimate</small> -->
                 </div>
               </div>
               <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
@@ -113,8 +112,8 @@
       </div>
       <div class="col-sm-4">
         <h5>How did we get these numbers?</h5>
-        <p>City rate limits are outlined in the <a href="#">Accommodation and Car Rental Directory</a></p>
-        <p>Non-commercial accommodation, meals and incidental allowances are outlined in the <a href="#">National Joint Council Travel Directive - Appendix C</a></p>
+        <p>City rate limits are outlined in the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">Accommodation and Car Rental Directory</a></p>
+        <p>Non-commercial accommodation, meals and incidental allowances are outlined in the <a href="https://www.njc-cnm.gc.ca/directive/d10/v238/s659/en">National Joint Council Travel Directive - Appendix C</a></p>
       </div>
     </div>
   </div>
