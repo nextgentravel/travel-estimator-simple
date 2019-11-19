@@ -25,6 +25,11 @@
                 <input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" v-bind:class="{ warning: accommodationWarning }" />
               </div>
             </div>
+            <div class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+              <div class="col-sm-12">
+                <small>City rate limit for <strong>{{destination}}</strong> on these dates is <strong>{{acrdRate[travelMonth]}}</strong> per night.</small>
+              </div>
+            </div>
             <div v-if="accommodationWarning" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
               <div class="col-sm-12">
                 <small>Your request exceeds the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">city rate limit.</a></small>
@@ -241,6 +246,15 @@ export default {
             this.mealsByDay[i].incidental ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + incidentalRate : null
           }
 
+          let tripRates = {
+            breakfastRate,
+            lunchRate,
+            dinnerRate,
+            incidentalRate
+          }
+
+          this.tripRates = tripRates;
+
           this.mealsAndIncidentalsAmount = mealsAndIncidentalsTotal.toFixed(2)
           this.calculate();
 
@@ -412,6 +426,14 @@ export default {
       set(value) {
         if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateAccommodationAmount', parseFloat(value))
+      }
+    },
+    tripRates: {
+      get() {
+        return this.$store.state.tripRates
+      },
+      set(value) {
+        this.$store.commit('updateTripRates', value)
       }
     },
     mealsAndIncidentalsAmount: {

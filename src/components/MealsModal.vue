@@ -13,16 +13,16 @@
             <div class="col-sm"><strong>{{day.day}}</strong></div>
             <div class="col-sm"><input v-bind:id="'breakfast' + index" v-model="mealsByDay[index].breakfast"
                 @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label
-                v-bind:for="'breakfast' + index">Breakfast</label></div>
+                v-bind:for="'breakfast' + index">Breakfast <small>(${{tripRates.breakfastRate.toFixed(2)}})</small></label></div>
             <div class="col-sm"><input v-bind:id="'lunch' + index" v-model="mealsByDay[index].lunch"
                 @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label
-                v-bind:for="'lunch' + index">Lunch</label></div>
+                v-bind:for="'lunch' + index">Lunch <small>(${{tripRates.lunchRate.toFixed(2)}})</small></label></div>
             <div class="col-sm"><input v-bind:id="'dinner' + index" v-model="mealsByDay[index].dinner"
                 @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label
-                v-bind:for="'dinner' + index">Dinner</label></div>
+                v-bind:for="'dinner' + index">Dinner <small>(${{tripRates.dinnerRate.toFixed(2)}})</small></label></div>
             <div class="col-sm"><input v-bind:id="'incidental' + index" v-model="mealsByDay[index].incidental"
                 @change="updateMealsAndAllowances" type="checkbox" class="form-check-input"> <label
-                v-bind:for="'incidental' + index">Incidental</label></div>
+                v-bind:for="'incidental' + index">Incidental <small>(${{tripRates.incidentalRate.toFixed(2)}})</small></label></div>
           </div>
         </div>
         <div class="modal-footer">
@@ -72,6 +72,11 @@
       mealsAndIncidentalsAmount: {
         get() {
           return this.$store.state.estimate.mealsAndIncidentals.amount
+        },
+      },
+      tripRates: {
+        get() {
+          return this.$store.state.tripRates
         },
       }
     }

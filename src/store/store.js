@@ -29,6 +29,7 @@ export default new Vuex.Store({
     training: false,
     conference: false,
     calculatedTotal: "-:--",
+    tripRates: {},
     mealsAndIncidentals: {
         YT: {
             breakfast: 22.75,
@@ -61,6 +62,9 @@ export default new Vuex.Store({
   mutations: {
     updateShowMealsModal (state, showMealsModal) {
         state.showMealsModal = showMealsModal
+    },
+    updateTripRates (state, tripRates) {
+        state.tripRates = tripRates
     },
     updateMealsByDay (state, mealsByDay) {
         state.mealsByDay = mealsByDay
