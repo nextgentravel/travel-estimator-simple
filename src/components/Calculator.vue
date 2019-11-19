@@ -135,8 +135,8 @@ export default {
       let mealsByDay = [];
 
       for (let i = 0; i < numberOfDays + 1; i++) {
-        let day = moment(departDate).add(i, 'd').format("D MMM");
-        mealsByDay.push({ day: day, breakfast: true, lunch: true, dinner: true })
+        let day = moment(departDate).add(i, 'd').format("MMM D");
+        mealsByDay.push({ day: day, breakfast: true, lunch: true, dinner: true, incidental: true })
       }
 
       this.mealsByDay = mealsByDay;
@@ -165,7 +165,7 @@ export default {
             this.mealsByDay[i].breakfast ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + breakfastRate : null
             this.mealsByDay[i].lunch ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + lunchRate : null
             this.mealsByDay[i].dinner ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + dinnerRate : null
-            mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + incidentalRate
+            this.mealsByDay[i].incidental ? mealsAndIncidentalsTotal = mealsAndIncidentalsTotal + incidentalRate : null
           }
 
           this.mealsAndIncidentalsAmount = mealsAndIncidentalsTotal.toFixed(2)

@@ -72,3 +72,11 @@ body {
 .vdatetime-popup__actions__button {
     color: #4d5d6c;
 }
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+}
