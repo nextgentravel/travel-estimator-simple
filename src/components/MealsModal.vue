@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="showMealsModal = false">Close</button>
+                <button type="button" class="btn btn-primary" @click="showMealsModal = false">Done</button>
             </div>
             </div>
         </div>
