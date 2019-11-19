@@ -150,7 +150,7 @@ export default {
                 (this.accommodationSelected ? parseFloat(this.accommodationAmount) : 0) +
                 (this.mealsAndIncidentalsSelected ? parseFloat(this.mealsAndIncidentalsAmount) : 0) +
                 (this.transportationSelected ? parseFloat(this.transportationAmount) : 0) +
-                (this.groundTransportationAmount ? parseFloat(this.groundTransportationAmount) : 0) +
+                (this.groundTransportationSelected ? parseFloat(this.groundTransportationAmount) : 0) +
                 (this.otherSelected ? parseFloat(this.otherAmount) : 0);
                 this.validateAccomodationTotal()
                 this.validateTransportTotal()
