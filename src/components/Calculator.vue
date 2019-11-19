@@ -16,11 +16,9 @@
                 </div>
               </div>
               <div class="col-sm-5">
-                  <select v-model="accommodationType" id="inputState" class="form-control">
+                  <select @change="setAccommodationTotal" v-model="accommodationType" id="inputState" class="form-control">
                     <option selected>Hotel</option>
-                    <option>AirBnb</option>
-                    <option>Bed & Breakfast</option>
-                    <option>Other</option>
+                    <option>Private Accommodations</option>
                   </select>
               </div>
               <div class="col-sm-2"><input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" /></div>
@@ -121,11 +119,14 @@ export default {
       this.calculatedTotal = amount.toFixed(2);
     },
     setAccommodationTotal: function() {
-      let amount = this.acrdRate[this.travelMonth];
+      let amount = parseInt(this.acrdRate[this.travelMonth].replace(/\$/g, ''));
+      if (this.accommodationType === "Private Accommodations") {
+        amount = 50
+      }
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
-      this.accommodationAmount = parseFloat(amount.replace(/\$/g, '')) * numberOfDays;
+      this.accommodationAmount = parseFloat(amount) * numberOfDays;
     },
     setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
