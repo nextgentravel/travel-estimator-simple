@@ -51,7 +51,12 @@
               </div>
               <div class="col-sm-5">
               </div>
-              <div class="col-sm-2"><input @input="transportationSelectHandler" v-model="transportationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="transportationSelectHandler" v-model="transportationAmount" class="form-control" v-bind:class="{ danger: transportDanger }" /></div>
+            </div>
+            <div v-if="transportDanger" class="row" style="margin-left: 5px; margin-top: -25px; align-items: center;">
+              <div class="col-sm-12">
+                <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+              </div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-10">
@@ -60,7 +65,12 @@
                   <label class="form-check-label" for="groundTransportationSelected">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
                 </div>
               </div>
-              <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
+            </div>
+            <div v-if="groundTransportationDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
+              <div class="col-sm-12">
+                <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+              </div>
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-5">
@@ -71,7 +81,12 @@
                 </div>
               </div>
               <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
-              <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" /></div>
+              <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" v-bind:class="{ danger: otherDanger }" /></div>
+            </div>
+            <div v-if="otherDanger" class="row" style="margin-left: 5px; margin-top: -15px; align-items: center;">
+              <div class="col-sm-12">
+                <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+              </div>
             </div>
             <hr>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
@@ -124,6 +139,9 @@ export default {
     return {
       moment,
       accommodationWarning: false,
+      transportDanger: false,
+      groundTransportationDanger: false,
+      otherDanger: false,
     }
   },
   methods: {
@@ -135,14 +153,38 @@ export default {
                 (this.groundTransportationAmount ? parseFloat(this.groundTransportationAmount) : 0) +
                 (this.otherSelected ? parseFloat(this.otherAmount) : 0);
                 this.validateAccomodationTotal()
+                this.validateTransportTotal()
+                this.validateGroundTransportationTotal()
+                this.validateOtherTotal()
       this.calculatedTotal = amount.toFixed(2);
     },
     validateAccomodationTotal: function () {
       let tripInfo = this.tripInfo();
-      if (this.accommodationAmount > (tripInfo.acrdRate * tripInfo.numberOfDays)) {
+      if (this.accommodationAmount > (tripInfo.acrdRate * tripInfo.numberOfDays) && this.accommodationSelected) {
         this.accommodationWarning = true;
       } else {
         this.accommodationWarning = false;
+      }
+    },
+    validateTransportTotal: function () {
+      if (this.transportationSelected && parseInt(this.transportationAmount) === 0) {
+        this.transportDanger = true;
+      } else {
+        this.transportDanger = false;
+      }
+    },
+    validateGroundTransportationTotal: function () {
+      if (this.groundTransportationSelected && parseInt(this.groundTransportationAmount) === 0) {
+        this.groundTransportationDanger = true;
+      } else {
+        this.groundTransportationDanger = false;
+      }
+    },
+    validateOtherTotal: function () {
+      if (this.otherSelected && parseInt(this.otherAmount) === 0) {
+        this.otherDanger = true;
+      } else {
+        this.otherDanger = false;
       }
     },
     tripInfo: function () {
@@ -428,8 +470,23 @@ export default {
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 0px 2px #FEC04F;
 }
 
+.danger {
+  border: 2px solid #FF0000;
+}
+
+.danger:focus {
+  content: none !important;
+  -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 2px #FF0000;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 0px 2px #FF0000;
+}
+
+
 .warningText {
   color: #FEC04F;
+}
+
+.dangerText {
+  color: #FF0000;
 }
 
 </style>
