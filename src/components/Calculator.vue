@@ -174,7 +174,7 @@ export default {
       }
     },
     validateGroundTransportationTotal: function () {
-      if (this.groundTransportationSelected && parseInt(this.groundTransportationAmount) === 0) {
+      if (this.groundTransportationSelected && (parseInt(this.groundTransportationAmount) === 0 || isNaN(this.groundTransportationAmount))) {
         this.groundTransportationDanger = true;
       } else {
         this.groundTransportationDanger = false;
@@ -394,7 +394,8 @@ export default {
         return this.$store.state.estimate.other.amount
       },
       set(value) {
-        this.$store.commit('updateOtherAmount', value)
+        if (isNaN(value) || value === "") { value = 0 }
+        this.$store.commit('updateOtherAmount', parseFloat(value))
       }
     },
     accommodationType: {
@@ -410,7 +411,8 @@ export default {
         return this.$store.state.estimate.accommodation.amount
       },
       set(value) {
-        this.$store.commit('updateAccommodationAmount', value)
+        if (isNaN(value) || value === "") { value = 0 }
+        this.$store.commit('updateAccommodationAmount', parseFloat(value))
       }
     },
     mealsAndIncidentalsAmount: {
@@ -418,7 +420,8 @@ export default {
         return this.$store.state.estimate.mealsAndIncidentals.amount
       },
       set(value) {
-        this.$store.commit('updateMealsAndIncidentalsAmount', value)
+        if (isNaN(value) || value === "") { value = 0 }
+        this.$store.commit('updateMealsAndIncidentalsAmount', parseFloat(value))
       }
     },
     transportationAmount: {
@@ -426,7 +429,8 @@ export default {
         return this.$store.state.estimate.transportation.amount
       },
       set(value) {
-        this.$store.commit('updateTransportationAmount', value)
+        if (isNaN(value) || value === "") { value = 0 }
+        this.$store.commit('updateTransportationAmount', parseFloat(value))
       }
     },
     groundTransportationAmount: {
@@ -434,7 +438,8 @@ export default {
         return this.$store.state.estimate.groundTransportation.amount
       },
       set(value) {
-        this.$store.commit('updateGroundTransportationAmount', value)
+        if (isNaN(value) || value === "") { value = 0 }
+        this.$store.commit('updateGroundTransportationAmount', parseFloat(value))
       }
     },
     calculatedTotal: {
