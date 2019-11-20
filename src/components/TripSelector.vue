@@ -82,8 +82,8 @@
         let origin = this.currentOriginValue;
         this.$store.commit('updateOrigin', origin)
         this.$store.commit('updateDestination', destination)
-        let city = this.cityLookup[destination.slice(0, -3)] || destination;
-        let uri = `https://acrd-api.herokuapp.com/${encodeURI(city.replace('/','sss'))}/rules`
+        let city = this.cityLookup[destination] || destination;
+        let uri = `https://acrd-api.herokuapp.com/${city.replace('/','sss')}/rules`
         console.log(uri)
         fetch(uri)
           .then(response => response.json())

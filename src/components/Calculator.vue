@@ -109,7 +109,9 @@
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-                <button onclick="window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link';" class="btn btn-primary" style="float: right;">Submit</button>
+
+                
+                <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button>
               </div>
             </div>
           </div>
@@ -192,6 +194,7 @@ export default {
       }
     },
     tripInfo: function () {
+      console.log('#### ', this.acrdRate)
       let acrdRate = parseInt(this.acrdRate[this.travelMonth].replace(/\$/g, ''));
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
