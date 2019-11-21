@@ -208,6 +208,7 @@ export default {
         amount = 50
       }
       this.accommodationAmount = parseFloat(amount) * tripInfo.numberOfDays;
+      this.calculate();
     },
     setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
