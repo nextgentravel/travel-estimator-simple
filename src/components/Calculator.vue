@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <MealsModal v-if="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
-    <GroundTransportationModal v-if="showGroundTransportationModal" />
+    <GroundTransportationModal v-if="showGroundTransportationModal" :setGroundTransportationTotal="this.setGroundTransportationTotal" />
     <br>
     <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{moment(departDate).format('MMM D')}} - {{moment(returnDate).format('D, YYYY')}}</h2>
     <br>
@@ -201,7 +201,6 @@ export default {
       }
     },
     tripInfo: function () {
-      console.log('#### ', this.acrdRate)
       let acrdRate = parseInt(this.acrdRate[this.travelMonth].replace(/\$/g, ''));
       var departDate = moment(this.departDate);
       var returnDate = moment(this.returnDate);
@@ -216,6 +215,16 @@ export default {
       }
       this.accommodationAmount = parseFloat(amount) * tripInfo.numberOfDays;
       this.calculate();
+    },
+    setGroundTransportationTotal: function() {
+      let tripInfo = this.tripInfo();
+      this.groundTransportationAmount = this.transportation.lineItems.homeToOriginAmount +
+      this.transportation.lineItems.destinationToAccommodationAmount +
+      (this.transportation.lineItems.dailyTransportationAmount * (tripInfo.numberOfDays - 2)) +
+      this.transportation.lineItems.accommodationToDestinationAmount +
+      this.transportation.lineItems.originToHomeAmount
+      this.calculate();
+      this.groundTransportationSelectHandler()
     },
     setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
@@ -314,6 +323,10 @@ export default {
 
   },
   computed: {
+    transportation () {
+      return this.$store.state.estimate.groundTransportation
+    },
+  
     travelMonth () {
       return moment(this.$store.state.departDate).subtract(1, "month").startOf("month").format('MMMM')
     },

@@ -23,8 +23,26 @@ export default new Vuex.Store({
     estimate: {
         accommodation: { selected: false, amount: 0, type: "Hotel" },
         mealsAndIncidentals: { selected: false, amount: 0, type: ""},
-        transportation: { selected: false, amount: 0},
-        groundTransportation: { selected: false, amount: 0},
+        transportation: {
+            selected: false,
+            amount: 0,
+        },
+        groundTransportation: {
+            selected: false,
+            amount: 0,
+            lineItems: {
+                accommodationToDestinationAmount: 0,
+                accommodationToDestinationType: "",
+                dailyTransportationAmount: 0,
+                dailyTransportationType: "",
+                destinationToAccommodationAmount: 0,
+                destinationToAccommodationType: "",
+                homeToOriginAmount: 0,
+                homeToOriginType: "",
+                originToHomeAmount: 0,
+                originToHomeType: "",
+            }
+        },
         other: { selected: false, amount: 0, description: ""},
     },
     training: false,
@@ -144,6 +162,36 @@ export default new Vuex.Store({
     },
     updateNoteToApprover (state, noteToApprover) {
         state.noteToApprover = noteToApprover
+    },
+    updateHomeToOriginType (state, homeToOriginType) {
+        state.estimate.groundTransportation.lineItems.homeToOriginType = homeToOriginType
+    },
+    updateHomeToOriginAmount (state, homeToOriginAmount) {
+        state.estimate.groundTransportation.lineItems.homeToOriginAmount = homeToOriginAmount
+    },
+    updateDestinationToAccommodationType (state, destinationToAccommodationType) {
+        state.estimate.groundTransportation.lineItems.destinationToAccommodationType = destinationToAccommodationType
+    },
+    updateDestinationToAccommodationAmount (state, destinationToAccommodationAmount) {
+        state.estimate.groundTransportation.lineItems.destinationToAccommodationAmount = destinationToAccommodationAmount
+    },
+    updateDailyTransportationType (state, dailyTransportationType) {
+        state.estimate.groundTransportation.lineItems.dailyTransportationType = dailyTransportationType
+    },
+    updateDailyTransportationAmount (state, dailyTransportationAmount) {
+        state.estimate.groundTransportation.lineItems.dailyTransportationAmount = dailyTransportationAmount
+    },
+    updateAccommodationToDestinationType (state, accommodationToDestinationType) {
+        state.estimate.groundTransportation.lineItems.accommodationToDestinationType = accommodationToDestinationType
+    },
+    updateAccommodationToDestinationAmount (state, accommodationToDestinationAmount) {
+        state.estimate.groundTransportation.lineItems.accommodationToDestinationAmount = accommodationToDestinationAmount
+    },
+    updateOriginToHomeType (state, originToHomeType) {
+        state.estimate.groundTransportation.lineItems.originToHomeType = originToHomeType
+    },
+    updateOriginToHomeAmount (state, originToHomeAmount) {
+        state.estimate.groundTransportation.lineItems.originToHomeAmount = originToHomeAmount
     },
   },
   
