@@ -16,14 +16,12 @@
               <small v-if="homeToOriginType === 'Taxi'">A taxi may cost <strong>~$25.</strong></small>
               <small v-if="homeToOriginType === 'Transit'">A transit pass may cost <strong>~$9.</strong></small>
               <small v-if="homeToOriginType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre.</small>
-              <small v-if="homeToOriginType === 'Rental Car'">A rental may cost <strong>~$78.</strong><br><span class="text-danger">Are you sure you want to rent a car for in {{origin}}?</span></small>
             </div>
             <div class="col-sm-3">
               <select v-model="homeToOriginType" id="inputState" class="form-control">
                 <option selected>Taxi</option>
                 <option>Personal Vehicle</option>
                 <option>Transit</option>
-                <option>Rental Car</option>
               </select>
             </div>
             <div class="col-sm-2">
@@ -35,14 +33,12 @@
               <strong>{{destination.slice(0,-3)}}</strong> port or station to <strong>accommodation.</strong>
               <br>
               <small v-if="destinationToAccommodationType === 'Taxi'">A taxi may cost <strong>~$55.</strong></small>
-              <small v-if="destinationToAccommodationType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre.<br><span class="text-danger">Do you have a personal vehicle in {{destination}}?</span></small>
               <small v-if="destinationToAccommodationType === 'Transit'">A transit pass may cost <strong>~$12 per day.</strong></small>
               <small v-if="destinationToAccommodationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small>
             </div>
             <div class="col-sm-3">
               <select v-model="destinationToAccommodationType" id="inputState" class="form-control">
                 <option selected>Taxi</option>
-                <option>Personal Vehicle</option>
                 <option>Transit</option>
                 <option>Rental Car</option>
               </select>
@@ -56,14 +52,12 @@
               Estimated daily ground transportation.
               <br>
               <small v-if="dailyTransportationType === 'Taxi'">A taxi may cost <strong>~$12 each way.</strong></small>
-              <small v-if="dailyTransportationType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre<br><span class="text-danger">Do you have a personal vehicle in {{destination}}?</span></small>
               <small v-if="dailyTransportationType === 'Transit'">A transit pass may cost <strong>~$12 per day.</strong></small>
               <small v-if="dailyTransportationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small>
             </div>
             <div class="col-sm-3">
               <select v-model="dailyTransportationType" id="inputState" class="form-control">
                 <option selected>Taxi</option>
-                <option>Personal Vehicle</option>
                 <option>Transit</option>
                 <option>Rental Car</option>
               </select>
@@ -79,12 +73,10 @@
               <small v-if="accommodationToDestinationType === 'Taxi'">A taxi may cost <strong>~$55.</strong></small>
               <small v-if="accommodationToDestinationType === 'Transit'">A transit pass may cost <strong>~$12 per day.</strong></small>
               <small v-if="accommodationToDestinationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small>
-              <small v-if="accommodationToDestinationType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre.<br><span class="text-danger">Do you have a personal vehicle in {{destination}}?</span></small>
             </div>
             <div class="col-sm-3">
               <select v-model="accommodationToDestinationType" id="inputState" class="form-control">
                 <option selected>Taxi</option>
-                <option>Personal Vehicle</option>
                 <option>Transit</option>
                 <option>Rental Car</option>
               </select>
@@ -107,7 +99,6 @@
                 <option selected>Taxi</option>
                 <option>Personal Vehicle</option>
                 <option>Transit</option>
-                <option>Rental Car</option>
               </select>
             </div>
             <div class="col-sm-2">
