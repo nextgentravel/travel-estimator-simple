@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     showMealsModal: false,
+    showGroundTransportationModal: false,
     cities: [],
     origin: null,
     destination: null,
@@ -62,6 +63,9 @@ export default new Vuex.Store({
   mutations: {
     updateShowMealsModal (state, showMealsModal) {
         state.showMealsModal = showMealsModal
+    },
+    updateShowGroundTransportationModal (state, showGroundTransportationModal) {
+        state.showGroundTransportationModal = showGroundTransportationModal
     },
     updateTripRates (state, tripRates) {
         state.tripRates = tripRates

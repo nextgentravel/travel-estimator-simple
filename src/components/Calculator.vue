@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <MealsModal v-if="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
+    <GroundTransportationModal v-if="showGroundTransportationModal" />
     <br>
     <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{moment(departDate).format('MMM D')}} - {{moment(returnDate).format('D, YYYY')}}</h2>
     <br>
@@ -69,6 +70,10 @@
                   <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
                   <label class="form-check-label" for="groundTransportationSelected">Ground Transportation (Taxi, Bus, Personal Mileage)</label>
                 </div>
+              <div class="col-sm-5">
+                <a href="#" @click="showGroundTransportationModal = true">Calculator</a>
+              </div>
+
               </div>
               <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
             </div>
@@ -129,10 +134,12 @@
 <script>
 import moment from 'moment'
 import MealsModal from './MealsModal'
+import GroundTransportationModal from './GroundTransportationModal'
 export default {
   name: 'Calculator',
   components: {
-    MealsModal
+    MealsModal,
+    GroundTransportationModal,
   },
   mounted() {
     this.setAccommodationTotal();
@@ -348,6 +355,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateShowMealsModal', value)
+      }
+    },
+    showGroundTransportationModal: {
+      get() {
+        return this.$store.state.showGroundTransportationModal
+      },
+      set(value) {
+        this.$store.commit('updateShowGroundTransportationModal', value)
       }
     },
     accommodationSelected: {
