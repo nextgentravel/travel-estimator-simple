@@ -2,7 +2,7 @@
   <div class="container">
     <MealsModal v-if="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
     <br>
-    <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{moment(departDate).format('MMM D')}} - {{moment(returnDate).format('D, YYYY')}}</h2>
+    <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
     <br>
     <div class="row">
       <div class="col-sm-8">
@@ -151,6 +151,19 @@ export default {
     }
   },
   methods: {
+    dateFormat: function() {
+      let startMonth = moment(this.departDate).format('M');
+      let endMonth = moment(this.returnDate).format('M');
+      let startYear = moment(this.departDate).format('YYYY');
+      let endYear = moment(this.returnDate).format('YYYY');
+      if (startYear !== endYear) {
+        return `${moment(this.departDate).format('MMM D YYYY')} - ${moment(this.returnDate).format('D MMM YYYY')}`
+      } else if (startMonth === endMonth) {
+        return `${moment(this.departDate).format('MMM D')} - ${moment(this.returnDate).format('D, YYYY')}`
+      } else {
+        return `${moment(this.departDate).format('MMM D')} - ${moment(this.returnDate).format('MMM D, YYYY')}`
+      }
+    },
     calculate: function() {
       let amount = 
                 (this.accommodationSelected ? parseFloat(this.accommodationAmount) : 0) +
