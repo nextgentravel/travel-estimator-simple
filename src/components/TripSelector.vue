@@ -38,16 +38,21 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label for="destinationInput" class="">Dates</label><br>
-            <date-range-picker
-                id="destinationInput"
-                :opens="opens"
-                @update="handleDateSelectorInput"
-                :locale-data="locale"
-                v-model="dateRange"
-                :ranges="ranges"
-                :autoApply="true"
-            >
-            </date-range-picker>
+              <div class="datepicker-trigger">
+                <button class="btn btn-secondary btn-sm" id="datepicker-trigger">
+                  {{formatDates(departDate, returnDate)}}
+                </button>
+                <AirbnbStyleDatepicker
+                  :trigger-element-id="'datepicker-trigger'"
+                  :mode="'range'"
+                  :fullscreen-mobile="true"
+                  :date-one="this.departDate"
+                  :date-two="this.returnDate"
+                  @date-one-selected="val => { this.departDate = val }"
+                  @date-two-selected="val => { this.returnDate = val }"
+                />
+              </div>
+
           </div>
         </div>
         <div class="col-sm-8">
@@ -63,40 +68,28 @@
 
 <script>
   import moment from 'moment'
-  import DateRangePicker from 'vue2-daterange-picker'
-  import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
   export default {
     name: 'TripSelector',
-    components: { DateRangePicker },
     data: function () {
       return {
         today: moment().format("MMM DD, YYYY"),
         cityLookup: {},
         loading: false,
-        currentOriginValue: "",
-        currentDestinationValue: "",        
-        opens: 'right',
-        dateRange: {
-            startDate: moment(),
-            endDate: moment().add(7, 'days'),
-        },
-        ranges: false,
-        locale: {
-            direction: 'ltr', //direction of text
-            format: 'MMM D, YYYY', //fomart of the dates displayed
-            separator: ' - ', //separator between the two ranges
-            weekLabel: 'W',
-            customRangeLabel: 'Custom Range',
-            daysOfWeek: moment.weekdaysMin(), //array of days - see moment documenations for details
-            monthNames: moment.monthsShort(), //array of month names - see moment documenations for details
-            firstDay: 1 //ISO first day of week - see moment documenations for details
-        }
+        dateOne: null,
+        dateTwo: null,
       }
     },
     created() {
       this.fetchData()
+      this.departDate = moment();
+      this.returnDate = moment().add(5, 'days');
     },
     methods: {
+      formatDates(dateOne, dateTwo) {
+        dateOne = moment(dateOne).format('D MMM')
+        dateTwo = moment(dateTwo).format('D MMM')
+        return `${dateOne} - ${dateTwo}`
+      },
       handleDateSelectorInput: function (e) {
         console.log(e)
         this.departDate = e.startDate
