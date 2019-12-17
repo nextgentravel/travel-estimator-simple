@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MealsModal v-if="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
+    <MealsModal ref="modalclose" v-show="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
     <GroundTransportationModal v-if="showGroundTransportationModal" :setGroundTransportationTotal="this.setGroundTransportationTotal" />
     <br>
     <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
@@ -44,7 +44,7 @@
                 </div>
               </div>
               <div class="col-sm-5">
-                <a href="#" @click="showMealsModal = true">Select meals to include</a>
+                <a href="#" @click="toggleMealsModal()">Select meals to include</a>
               </div>
               <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" disabled /></div>
             </div>
@@ -52,7 +52,7 @@
               <div class="col-sm-5">
                 <div class="form-check">
                   <input @change="calculate()" v-model="transportationSelected" type="checkbox" class="form-check-input" id="transportationSelected">
-                  <label class="form-check-label" for="transportationSelected">Transportation (Flight, Rail)</label>
+                  <label class="form-check-label" for="transportationSelected">How are you getting from A to B? (Flight, Rail)</label>
                 </div>
               </div>
               <div class="col-sm-5">
@@ -68,7 +68,7 @@
               <div class="col-sm-10">
                 <div class="form-check">
                   <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
-                  <label class="form-check-label" for="groundTransportationSelected">Ground Transportation (Taxi, Bus, Personal Mileage)<a class="ml-2" href="#" @click="showGroundTransportationModal = true">Itemize</a></label>
+                  <label class="form-check-label" for="groundTransportationSelected">When you're there, how are you getting around? (Taxi, Bus, Personal Mileage)<a class="ml-2" href="#" @click="showGroundTransportationModal = true">Itemize</a></label>
                 </div>
               </div>
               <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
@@ -154,6 +154,12 @@ export default {
     }
   },
   methods: {
+    toggleMealsModal: function () {
+      this.showMealsModal = true;
+      this.$nextTick(() => {
+          console.log(this.$refs.modalclose.$el.querySelector('input').focus())
+      })
+    },
     dateFormat: function() {
       let startMonth = moment(this.departDate).format('M');
       let endMonth = moment(this.returnDate).format('M');
@@ -555,5 +561,10 @@ export default {
 .dangerText {
   color: #FF0000;
 }
-
+.modal-body {
+position: relative;
+padding: 20px;
+height: 200px;
+overflow-y: scroll;
+}
 </style>

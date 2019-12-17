@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Estimate the cost of ground transportation</h5>
-          <button @click="showGroundTransportationModal = false" type="button" class="close" aria-label="Close">
+          <button @click="showGroundTransportationModal = false" type="button" class="close" aria-label="Close" autofocus>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
