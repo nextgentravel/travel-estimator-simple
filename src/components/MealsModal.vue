@@ -1,6 +1,6 @@
 <template>
-  <div class="modal" style="display: block;">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal" role="dialog" tabindex="-1" style="display: block;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">De-select any meals that will be provided during your trip</h5>

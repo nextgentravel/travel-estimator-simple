@@ -130,22 +130,24 @@
             this.cityLookup = data.suburbCityList
           })
       },
+      normalizeString(string) {
+        return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      },
       originSearch(input) {
         if (input.length < 1) {
           return []
         }
         return this.cities.filter(city => {
-          return city.toLowerCase()
+          return this.normalizeString(city).toLowerCase()
             .startsWith(input.toLowerCase())
         })
       },
       destinationSearch(input) {
-
         if (input.length < 1) {
           return []
         }
         return this.cities.filter(city => {
-          return city.toLowerCase()
+          return this.normalizeString(city).toLowerCase()
             .startsWith(input.toLowerCase())
         })
       },
