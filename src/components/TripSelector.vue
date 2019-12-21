@@ -75,14 +75,14 @@
         today: moment().format("MMM DD, YYYY"),
         cityLookup: {},
         loading: false,
-        dateOne: null,
-        dateTwo: null,
+        dateOne: '',
+        dateTwo: '',
       }
     },
     created() {
       this.fetchData()
-      this.departDate = moment();
-      this.returnDate = moment().add(5, 'days');
+      this.departDate = moment().format('YYYY-MM-DD');
+      this.returnDate = moment().add(5, 'days').format('YYYY-MM-DD');
     },
     methods: {
       formatDates(dateOne, dateTwo) {
