@@ -10,8 +10,8 @@ export default new Vuex.Store({
     cities: [],
     origin: null,
     destination: null,
-    departDate: null,
-    returnDate: null,
+    departDate: '',
+    returnDate: '',
     perDiem: {
         dailyRate: 0,
     },
@@ -98,9 +98,11 @@ export default new Vuex.Store({
         state.destination = destination
     },
     updateDepartDate (state, departDate) {
+        console.log('departDate', departDate)
         state.departDate = departDate
     },
     updateReturnDate (state, returnDate) {
+        console.log('returnDate', returnDate)
         state.returnDate = returnDate
     },
     updateCity (state, cities) {
