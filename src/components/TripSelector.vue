@@ -12,9 +12,10 @@
             <label for="originInput" class="">From</label>
             <autocomplete
               aria-label="Origin"
+              ref="origin"
               :search="originSearch"
               :get-result-value="getOriginValue"
-              v-bind:default-value="origin"
+              :default-value="origin"
             >
             </autocomplete>
           </div>
@@ -24,9 +25,10 @@
             <label for="destinationInput" class="">To</label>
             <autocomplete 
               aria-label="Destination"
+              ref="destination"
               :search="destinationSearch"
               :get-result-value="getDestinationValue"
-              v-bind:default-value="destination"
+              :default-value="destination"
               >
             </autocomplete>
           </div>
@@ -79,10 +81,12 @@
         dateTwo: '',
       }
     },
-    created() {
+    mounted() {
       this.fetchData()
       this.departDate = moment().format('YYYY-MM-DD');
       this.returnDate = moment().add(5, 'days').format('YYYY-MM-DD');
+      this.$refs.origin.setValue(this.origin)
+      this.$refs.destination.setValue(this.destination)
     },
     methods: {
       formatDates(dateOne, dateTwo) {
@@ -91,7 +95,6 @@
         return `${dateOne} - ${dateTwo}`
       },
       handleDateSelectorInput: function (e) {
-        console.log(e)
         this.departDate = e.startDate
         this.returnDate = e.endDate
       },
@@ -102,7 +105,6 @@
         this.$store.commit('updateDestination', destination)
         let city = this.cityLookup[destination] || destination;
         let uri = `https://acrd-api.herokuapp.com/${city.replace('/','sss')}/rules`
-        console.log(uri)
         fetch(uri)
           .then(response => response.json())
           .then(data => {
