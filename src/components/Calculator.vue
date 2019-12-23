@@ -166,7 +166,7 @@ export default {
       let startYear = moment(this.departDate).format('YYYY');
       let endYear = moment(this.returnDate).format('YYYY');
       if (startYear !== endYear) {
-        return `${moment(this.departDate).format('MMM D YYYY')} - ${moment(this.returnDate).format('D MMM YYYY')}`
+        return `${moment(this.departDate).format('D MMM YYYY')} - ${moment(this.returnDate).format('D MMM YYYY')}`
       } else if (startMonth === endMonth) {
         return `${moment(this.departDate).format('MMM D')} - ${moment(this.returnDate).format('D, YYYY')}`
       } else {
