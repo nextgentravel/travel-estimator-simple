@@ -26,9 +26,14 @@
                 <input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" v-bind:class="{ warning: accommodationWarning }" />
               </div>
             </div>
-            <div class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+            <div v-if="accommodationType === 'Hotel'" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
               <div class="col-sm-12">
-                <small>City rate limit for <strong>{{destination}}</strong> on these dates is <strong>{{acrdRate[travelMonth]}}</strong> per night.</small>
+                <small>Hotel city rate limit for <strong>{{destination}}</strong> on these dates is <strong>{{acrdRate[travelMonth]}}</strong> per night.</small>
+              </div>
+            </div>
+            <div v-if="accommodationType === 'Private Accommodations'" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+              <div class="col-sm-12">
+                <small>The private non-commercial accommodation allowance is <strong>$50</strong> per night.</small>
               </div>
             </div>
             <div v-if="accommodationWarning" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
