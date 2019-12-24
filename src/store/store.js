@@ -140,6 +140,9 @@ export default new Vuex.Store({
     updateAccommodationSelected (state, accomodationSelected) {
         state.estimate.accommodation.selected = accomodationSelected
     },
+    updateAccommodationRate (state, accomodationRate) {
+        state.estimate.accommodation.rate = accomodationRate
+    },
     updateMealsAndIncidentalsSelected (state, mealsAndIncidentalsSelected) {
         state.estimate.mealsAndIncidentals.selected = mealsAndIncidentalsSelected
     },

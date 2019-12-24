@@ -13,6 +13,7 @@ import './assets/auto-complete-style.css'
 import VueRouter from 'vue-router'
 import Calculator from './components/Calculator.vue'
 import TripSelector from './components/TripSelector.vue'
+import Print from './components/Print.vue'
 import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker'
 import 'vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css'
 
@@ -75,6 +76,7 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: TripSelector },
     { path: '/calculate', component: Calculator },
+    { path: '/print', component: Print },
   ]
 })
 

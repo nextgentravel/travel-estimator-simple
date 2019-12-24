@@ -37,7 +37,7 @@
         </div>
         <div class="modal-footer">
           <div>
-            <button type="button" class="btn btn-primary" @click="showExportModal = false">Create PDF</button>
+            <button type="button" class="btn btn-primary" @click="goToPrint()">Create PDF</button>
           </div>
         </div>
       </div>
@@ -55,7 +55,12 @@
         moment
       }
     },
-    methods: {},
+    methods: {
+      goToPrint: function() {
+        this.showExportModal = false
+        this.$router.push({ path: 'print' })
+      }
+    },
     computed: {
       showExportModal: {
         get() {
