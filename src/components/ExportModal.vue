@@ -9,11 +9,35 @@
           </button>
         </div>
         <div class="modal-body" style="margin-top: 10px;">
-            <p>Test</p>
+          <form>
+            <div class="form-group">
+              <label for="userName">Your Name</label>
+              <input type="text" class="form-control" id="userName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+              <label for="tripName">Trip Name</label>
+              <input type="text" class="form-control" id="tripName" placeholder="Enter a name for this trip">
+            </div>
+            <div class="form-group">
+              <label for="tripType">Trip Type</label>
+                <select @change="setTripType" v-model="tripType" id="tripType" class="form-control">
+                  <option>Conference</option>
+                  <option>Core Mandate</option>
+                  <option>Stakeholder</option>
+                  <option>Training</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+              <label for="tripWhy">Why are you going on this trip?</label>
+              <textarea class="form-control" id="tripWhy" rows="3"></textarea>
+            </div>
+
+          </form>
         </div>
         <div class="modal-footer">
           <div>
-            <button type="button" class="btn btn-primary" @click="showExportModal = false">Done</button>
+            <button type="button" class="btn btn-primary" @click="showExportModal = false">Create PDF</button>
           </div>
         </div>
       </div>
