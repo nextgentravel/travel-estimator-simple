@@ -2,6 +2,7 @@
   <div class="container">
     <MealsModal ref="modalclose" v-show="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
     <GroundTransportationModal v-if="showGroundTransportationModal" :setGroundTransportationTotal="this.setGroundTransportationTotal" />
+    <ExportModal v-if="showExportModal" />
     <br>
     <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
     <br>
@@ -114,9 +115,8 @@
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-
-                
                 <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button>
+                <button @click="showExportModal = true" class="btn btn-primary" style="float: right; margin-right: 5px;">Save as PDF</button>
               </div>
             </div>
           </div>
@@ -135,11 +135,13 @@
 import moment from 'moment'
 import MealsModal from './MealsModal'
 import GroundTransportationModal from './GroundTransportationModal'
+import ExportModal from './ExportModal'
 export default {
   name: 'Calculator',
   components: {
     MealsModal,
     GroundTransportationModal,
+    ExportModal,
   },
   mounted() {
     this.setAccommodationTotal();
@@ -160,6 +162,12 @@ export default {
   methods: {
     toggleMealsModal: function () {
       this.showMealsModal = true;
+      this.$nextTick(() => {
+          console.log(this.$refs.modalclose.$el.querySelector('input').focus())
+      })
+    },
+    toggleExportModal: function () {
+      this.showExportModal = true;
       this.$nextTick(() => {
           console.log(this.$refs.modalclose.$el.querySelector('input').focus())
       })
@@ -345,7 +353,6 @@ export default {
     transportation () {
       return this.$store.state.estimate.groundTransportation
     },
-  
     travelMonth () {
       return moment(this.$store.state.departDate).subtract(1, "month").startOf("month").format('MMMM')
     },
@@ -387,6 +394,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateShowMealsModal', value)
+      }
+    },
+    showExportModal: {
+      get() {
+        return this.$store.state.showExportModal
+      },
+      set(value) {
+        this.$store.commit('updateShowExportModal', value)
       }
     },
     showGroundTransportationModal: {
