@@ -5,6 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    userName: '',
+    tripName: '',
+    tripType: '',
+    tripWhy: '',
     showMealsModal: false,
     showGroundTransportationModal: false,
     showExportModal: false,
@@ -80,6 +84,18 @@ export default new Vuex.Store({
   },
   
   mutations: {
+    updateUserName (state, userName) {
+        state.userName = userName
+    },
+    updateTripName (state, tripName) {
+        state.tripName = tripName
+    },
+    updateTripType (state, tripType) {
+        state.tripType = tripType
+    },
+    updateTripWhy (state, tripWhy) {
+        state.tripWhy = tripWhy
+    },
     updateShowExportModal (state, showExportModal) {
         state.showExportModal = showExportModal
     },

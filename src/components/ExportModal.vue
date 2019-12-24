@@ -12,15 +12,15 @@
           <form>
             <div class="form-group">
               <label for="userName">Your Name</label>
-              <input type="text" class="form-control" id="userName" placeholder="Enter your name">
+              <input v-model="userName" type="text" class="form-control" id="userName" placeholder="Enter your name">
             </div>
             <div class="form-group">
               <label for="tripName">Trip Name</label>
-              <input type="text" class="form-control" id="tripName" placeholder="Enter a name for this trip">
+              <input v-model="tripName" type="text" class="form-control" id="tripName" placeholder="Enter a name for this trip">
             </div>
             <div class="form-group">
               <label for="tripType">Trip Type</label>
-                <select @change="setTripType" v-model="tripType" id="tripType" class="form-control">
+                <select v-model="tripType" id="tripType" class="form-control">
                   <option>Conference</option>
                   <option>Core Mandate</option>
                   <option>Stakeholder</option>
@@ -30,7 +30,7 @@
 
             <div class="form-group">
               <label for="tripWhy">Why are you going on this trip?</label>
-              <textarea class="form-control" id="tripWhy" rows="3"></textarea>
+              <textarea v-model="tripWhy" class="form-control" id="tripWhy" rows="3"></textarea>
             </div>
 
           </form>
@@ -63,6 +63,38 @@
         },
         set(value) {
           this.$store.commit('updateShowExportModal', value)
+        }
+      },
+      userName: {
+        get() {
+          return this.$store.state.userName
+        },
+        set(value) {
+          this.$store.commit('updateUserName', value)
+        }
+      },
+      tripName: {
+        get() {
+          return this.$store.state.tripName
+        },
+        set(value) {
+          this.$store.commit('updateTripName', value)
+        }
+      },
+      tripType: {
+        get() {
+          return this.$store.state.tripType
+        },
+        set(value) {
+          this.$store.commit('updateTripType', value)
+        }
+      },
+      tripWhy: {
+        get() {
+          return this.$store.state.tripWhy
+        },
+        set(value) {
+          this.$store.commit('updateTripWhy', value)
         }
       },
     }
