@@ -65,10 +65,11 @@
 
         <div class="form-group">
           <button class="btn btn-primary" v-on:click="submitTrip">Create Estimate</button>
-          <button style="border: none;" class="btn btn-secondary ml-2" v-on:click="clearState">Clear</button>
+          <button class="btn button-custom ml-2" v-on:click="clearState">Clear</button>
         </div>
       </div>
     </div>
+    <br>
     <Footer />
   </div>
 </template>
@@ -233,6 +234,26 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .button-custom {
+    border: none;
+    color: #0278A4;
+    background-color: unset;
+    font-weight: unset !important;
+  }
+  .button-custom:hover {
+    color: #0278A4 !important;
+    background-color: transparent !important;
+    text-decoration: underline;
+  }
+  .button-custom:active {
+    box-shadow: unset !important;
+    -webkit-box-shadow: unset !important;
+  }
+  .button-custom:focus {
+    box-shadow: unset !important;
+    -webkit-box-shadow: unset !important;
+  }
   .spinner {
     width: 40px;
     height: 40px;
