@@ -65,6 +65,7 @@
 
         <div class="form-group">
           <button class="btn btn-primary" v-on:click="submitTrip">Create Estimate</button>
+          <button class="btn btn-secondary ml-2" v-on:click="clearState">Reset Estimate</button>
         </div>
       </div>
     </div>
@@ -123,6 +124,10 @@
             this.$router.push({ path: 'calculate' })
           })
         
+      },
+      clearState: function () {
+        window.localStorage.clear();
+        this.$router.go()  
       },
       fetchData() {
         this.error = this.post = null

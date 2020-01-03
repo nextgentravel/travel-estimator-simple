@@ -1,10 +1,10 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
+const initialState = {
     userName: '',
     tripName: '',
     tripCategory: '',
@@ -81,8 +81,12 @@ export default new Vuex.Store({
         },
     },
     mealsByDay: [],
-  },
-  
+  }
+
+
+export default new Vuex.Store({
+  plugins: [createPersistedState()],
+  state: initialState,
   mutations: {
     updateUserName (state, userName) {
         state.userName = userName
@@ -118,11 +122,9 @@ export default new Vuex.Store({
         state.destination = destination
     },
     updateDepartDate (state, departDate) {
-        console.log('departDate', departDate)
         state.departDate = departDate
     },
     updateReturnDate (state, returnDate) {
-        console.log('returnDate', returnDate)
         state.returnDate = returnDate
     },
     updateCity (state, cities) {

@@ -171,13 +171,13 @@ export default {
     toggleMealsModal: function () {
       this.showMealsModal = true;
       this.$nextTick(() => {
-          console.log(this.$refs.modalclose.$el.querySelector('input').focus())
+        this.$refs.modalclose.$el.querySelector('input').focus();
       })
     },
     toggleExportModal: function () {
       this.showExportModal = true;
       this.$nextTick(() => {
-          console.log(this.$refs.modalclose.$el.querySelector('input').focus())
+        this.$refs.modalclose.$el.querySelector('input').focus();
       })
     },
     dateFormat: function() {
