@@ -251,8 +251,10 @@
     -webkit-box-shadow: unset !important;
   }
   .button-custom:focus {
-    box-shadow: unset !important;
+    box-shadow: unset !important;                
     -webkit-box-shadow: unset !important;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -6px;
   }
   .spinner {
     width: 40px;
