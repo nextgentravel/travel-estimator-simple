@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     userName: '',
     tripName: '',
-    tripType: '',
+    tripCategory: '',
     tripWhy: '',
     showMealsModal: false,
     showGroundTransportationModal: false,
@@ -90,8 +90,8 @@ export default new Vuex.Store({
     updateTripName (state, tripName) {
         state.tripName = tripName
     },
-    updateTripType (state, tripType) {
-        state.tripType = tripType
+    updatetripCategory (state, tripCategory) {
+        state.tripCategory = tripCategory
     },
     updateTripWhy (state, tripWhy) {
         state.tripWhy = tripWhy

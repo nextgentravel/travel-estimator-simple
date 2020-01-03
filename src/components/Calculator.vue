@@ -115,7 +115,7 @@
             </div>
             <div class="row" style="margin-bottom: 15px; align-items: center;">
               <div class="col-sm-12">
-                <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button>
+                <!-- <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button> -->
                 <button @click="showExportModal = true" class="btn btn-primary" style="float: right; margin-right: 5px;">Save as PDF</button>
               </div>
             </div>

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Please provide some additional details for your estimate</h5>
+          <h5 class="modal-title">Please provide some additional details for your request</h5>
           <button @click="showExportModal = false" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -19,8 +19,8 @@
               <input v-model="tripName" type="text" class="form-control" id="tripName" placeholder="Enter a name for this trip">
             </div>
             <div class="form-group">
-              <label for="tripType">Trip Type</label>
-                <select v-model="tripType" id="tripType" class="form-control">
+              <label for="tripCategory">Travel Category</label>
+                <select v-model="tripCategory" id="tripCategory" class="form-control">
                   <option>Conference</option>
                   <option>Core Mandate</option>
                   <option>Stakeholder</option>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group">
-              <label for="tripWhy">Why are you going on this trip?</label>
+              <label for="tripWhy">Additional Information (Rationale for travel)</label>
               <textarea v-model="tripWhy" class="form-control" id="tripWhy" rows="3"></textarea>
             </div>
 
@@ -86,12 +86,12 @@
           this.$store.commit('updateTripName', value)
         }
       },
-      tripType: {
+      tripCategory: {
         get() {
-          return this.$store.state.tripType
+          return this.$store.state.tripCategory
         },
         set(value) {
-          this.$store.commit('updateTripType', value)
+          this.$store.commit('updatetripCategory', value)
         }
       },
       tripWhy: {
