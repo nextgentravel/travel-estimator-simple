@@ -65,7 +65,7 @@
 
         <div class="form-group">
           <button class="btn btn-primary" v-on:click="submitTrip">Create Estimate</button>
-          <button class="btn btn-secondary ml-2" v-on:click="clearState">Reset Estimate</button>
+          <button style="border: none;" class="btn btn-secondary ml-2" v-on:click="clearState">Clear</button>
         </div>
       </div>
     </div>
