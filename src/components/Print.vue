@@ -73,23 +73,12 @@
 <script>
     import moment from 'moment'
     import PrintHeader from './PrintHeader'
-    import jsPDF from 'jspdf'
-    import html2canvas from 'html2canvas'
-    window.html2canvas = html2canvas;
     export default {
         name: 'Print',
         components: {
             PrintHeader,
         },
         mounted() {
-            const filename  = `${this.fileNameDate} ${this.store.tripName} Travel Estimate.pdf`;
-            html2canvas(document.querySelector('body'), 
-                {scale: 1})
-                    .then(canvas => {
-                        let pdf = new jsPDF('p', 'mm', 'a4');
-                        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 190);
-                        pdf.save(filename);
-            });
         },
         data: function () {
             return {
