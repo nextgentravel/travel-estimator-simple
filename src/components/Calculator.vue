@@ -1,133 +1,137 @@
 <template>
-  <div class="container">
-    <MealsModal ref="modalclose" v-show="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
-    <GroundTransportationModal v-if="showGroundTransportationModal" :setGroundTransportationTotal="this.setGroundTransportationTotal" />
-    <ExportModal v-if="showExportModal" />
-    <br>
-    <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
-    <br>
-    <div class="row">
-      <div class="col-sm-8">
-        <div class="card mb-2">
-          <div class="card-body">
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-5">
-                <div class="form-check">
-                  <input @change="calculate()" v-model="accommodationSelected" type="checkbox" class="form-check-input" id="accommodationSelected">
-                  <label class="form-check-label" for="accommodationSelected">Accommodations</label>
+  <div>
+    <Header />
+    <div class="container">
+      <MealsModal ref="modalclose" v-show="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
+      <GroundTransportationModal v-if="showGroundTransportationModal" :setGroundTransportationTotal="this.setGroundTransportationTotal" />
+      <ExportModal v-if="showExportModal" />
+      <br>
+      <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
+      <br>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-5">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="accommodationSelected" type="checkbox" class="form-check-input" id="accommodationSelected">
+                    <label class="form-check-label" for="accommodationSelected">Accommodations</label>
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                    <select @change="setAccommodationTotal" v-model="accommodationType" id="inputState" class="form-control">
+                      <option selected>Hotel</option>
+                      <option>Private Accommodations</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                  <input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" v-bind:class="{ warning: accommodationWarning }" />
                 </div>
               </div>
-              <div class="col-sm-5">
-                  <select @change="setAccommodationTotal" v-model="accommodationType" id="inputState" class="form-control">
-                    <option selected>Hotel</option>
-                    <option>Private Accommodations</option>
-                  </select>
-              </div>
-              <div class="col-sm-2">
-                <input @input="accommodationSelectHandler" v-model="accommodationAmount" class="form-control" v-bind:class="{ warning: accommodationWarning }" />
-              </div>
-            </div>
-            <div v-if="accommodationType === 'Hotel'" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
-              <div class="col-sm-12">
-                <small>Hotel city rate limit for <strong>{{destination}}</strong> on these dates is <strong>{{acrdRate[travelMonth]}}</strong> per night.</small>
-              </div>
-            </div>
-            <div v-if="accommodationType === 'Private Accommodations'" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
-              <div class="col-sm-12">
-                <small>The private non-commercial accommodation allowance is <strong>$50</strong> per night.</small>
-              </div>
-            </div>
-            <div v-if="accommodationWarning" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
-              <div class="col-sm-12">
-                <small>Your request exceeds the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">city rate limit.</a></small>
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-6">
-                <div class="form-check">
-                  <input @change="calculate()" v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input" id="mealsAndIncidentalsSelected">
-                  <label class="form-check-label" for="mealsAndIncidentalsSelected">Meals and Incidentals</label>
+              <div v-if="accommodationType === 'Hotel'" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small>Hotel city rate limit for <strong>{{destination}}</strong> on these dates is <strong>{{acrdRate[travelMonth]}}</strong> per night.</small>
                 </div>
               </div>
-              <div class="col-sm-4">
-                <a href="#" @click="toggleMealsModal()" style="float: right;">Select meals to include</a>
-              </div>
-              <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" disabled /></div>
-            </div>
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-10">
-                <div class="form-check">
-                  <input @change="calculate()" v-model="transportationSelected" type="checkbox" class="form-check-input" id="transportationSelected">
-                  <label class="form-check-label" for="transportationSelected">How are you getting from <strong>{{origin}}</strong> to <strong>{{destination}}</strong>? (Flight, Rail)</label>
+              <div v-if="accommodationType === 'Private Accommodations'" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small>The private non-commercial accommodation allowance is <strong>$50</strong> per night.</small>
                 </div>
               </div>
-              <div class="col-sm-2"><input @input="transportationSelectHandler" v-model="transportationAmount" class="form-control" v-bind:class="{ danger: transportDanger }" /></div>
-            </div>
-            <div v-if="transportDanger" class="row" style="margin-left: 5px; margin-top: -25px; align-items: center;">
-              <div class="col-sm-12">
-                <small class="text-danger">Add an estimated cost, or deselect this item.</small>
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-8">
-                <div class="form-check">
-                  <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
-                  <label class="form-check-label" for="groundTransportationSelected">When you're there, how are you getting around? (Taxi, Bus, Personal Mileage)</label>
+              <div v-if="accommodationWarning" class="row" style="margin-left: 5px; margin-top: -10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small>Your request exceeds the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">city rate limit.</a></small>
                 </div>
               </div>
-              <div class="col-sm-2"><a class="ml-2" href="#" @click="showGroundTransportationModal = true" style="float: right;">Itemize</a></div>
-              <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
-            </div>
-            <div v-if="groundTransportationDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
-              <div class="col-sm-12">
-                <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-6">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="mealsAndIncidentalsSelected" type="checkbox" class="form-check-input" id="mealsAndIncidentalsSelected">
+                    <label class="form-check-label" for="mealsAndIncidentalsSelected">Meals and Incidentals</label>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <a href="#" @click="toggleMealsModal()" style="float: right;">Select meals to include</a>
+                </div>
+                <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" disabled /></div>
               </div>
-            </div>
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-5">
-                <div class="form-check">
-                  <input @change="calculate()" v-model="otherSelected" type="checkbox" class="form-check-input" id="otherSelected">
-                  <label class="form-check-label" for="otherSelected">Other</label>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="transportationSelected" type="checkbox" class="form-check-input" id="transportationSelected">
+                    <label class="form-check-label" for="transportationSelected">How are you getting from <strong>{{origin}}</strong> to <strong>{{destination}}</strong>? (Flight, Rail)</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="transportationSelectHandler" v-model="transportationAmount" class="form-control" v-bind:class="{ danger: transportDanger }" /></div>
+              </div>
+              <div v-if="transportDanger" class="row" style="margin-left: 5px; margin-top: -25px; align-items: center;">
+                <div class="col-sm-12">
+                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
                 </div>
               </div>
-              <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
-              <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" v-bind:class="{ danger: otherDanger }" /></div>
-            </div>
-            <div v-if="otherDanger" class="row" style="margin-left: 5px; margin-top: -15px; align-items: center;">
-              <div class="col-sm-12">
-                <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-8">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
+                    <label class="form-check-label" for="groundTransportationSelected">When you're there, how are you getting around? (Taxi, Bus, Personal Mileage)</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><a class="ml-2" href="#" @click="showGroundTransportationModal = true" style="float: right;">Itemize</a></div>
+                <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
               </div>
-            </div>
-            <hr>
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-12">
-                <p style="float: right; font-size: 1.5em;" v-bind:class="{ warningText: accommodationWarning }">${{calculatedTotal}}</p>
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 15px; align-items: center;" v-if="accommodationWarning">
-              <div class="col-sm-12">
-                <p>Warning - One of your requests exceeds established rates. You may want to add a note to your approver to explain your choice, or change the value above.</p>
-                <div class="form-group">
-                  <label for="noteToApprover" class="">Note to Approver</label>
-                  <textarea v-model="noteToApprover" class="form-control" id="noteToApprover" rows="3"></textarea>
+              <div v-if="groundTransportationDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
                 </div>
               </div>
-            </div>
-            <div class="row" style="margin-bottom: 15px; align-items: center;">
-              <div class="col-sm-12">
-                <!-- <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button> -->
-                <button @click="showExportModal = true" class="btn btn-primary" style="float: right; margin-right: 5px;">Save as PDF</button>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-5">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="otherSelected" type="checkbox" class="form-check-input" id="otherSelected">
+                    <label class="form-check-label" for="otherSelected">Other</label>
+                  </div>
+                </div>
+                <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
+                <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" v-bind:class="{ danger: otherDanger }" /></div>
+              </div>
+              <div v-if="otherDanger" class="row" style="margin-left: 5px; margin-top: -15px; align-items: center;">
+                <div class="col-sm-12">
+                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+                </div>
+              </div>
+              <hr>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-12">
+                  <p style="float: right; font-size: 1.5em;" v-bind:class="{ warningText: accommodationWarning }">${{calculatedTotal}}</p>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;" v-if="accommodationWarning">
+                <div class="col-sm-12">
+                  <p>Warning - One of your requests exceeds established rates. You may want to add a note to your approver to explain your choice, or change the value above.</p>
+                  <div class="form-group">
+                    <label for="noteToApprover" class="">Note to Approver</label>
+                    <textarea v-model="noteToApprover" class="form-control" id="noteToApprover" rows="3"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-12">
+                  <!-- <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button> -->
+                  <button @click="showExportModal = true" class="btn btn-primary" style="float: right; margin-right: 5px;">Save as PDF</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-4">
-        <h5>How did we get these numbers?</h5>
-        <p>City rate limits are outlined in the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">Accommodation and Car Rental Directory</a></p>
-        <p>Non-commercial accommodation, meals and incidental allowances are outlined in the <a href="https://www.njc-cnm.gc.ca/directive/d10/v238/s659/en">National Joint Council Travel Directive - Appendix C</a></p>
+        <div class="col-sm-4">
+          <h5>How did we get these numbers?</h5>
+          <p>City rate limits are outlined in the <a href="https://rehelv-acrd.tpsgc-pwgsc.gc.ca/acrds/preface-eng.aspx">Accommodation and Car Rental Directory</a></p>
+          <p>Non-commercial accommodation, meals and incidental allowances are outlined in the <a href="https://www.njc-cnm.gc.ca/directive/d10/v238/s659/en">National Joint Council Travel Directive - Appendix C</a></p>
+        </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -136,12 +140,16 @@ import moment from 'moment'
 import MealsModal from './MealsModal'
 import GroundTransportationModal from './GroundTransportationModal'
 import ExportModal from './ExportModal'
+import Header from './Header'
+import Footer from './Footer'
 export default {
   name: 'Calculator',
   components: {
     MealsModal,
     GroundTransportationModal,
     ExportModal,
+    Header,
+    Footer,
   },
   mounted() {
     this.setAccommodationTotal();

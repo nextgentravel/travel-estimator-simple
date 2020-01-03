@@ -1,4 +1,6 @@
 <template>
+    <div>
+    <PrintHeader />
     <div class="container">
         <br>
         <h2 class="mb-0">Travel Request for {{store.userName}}</h2>
@@ -65,12 +67,17 @@
             {{store.userName}} - {{today}}
         </p>
     </div>
+    </div>
 </template>
 
 <script>
     import moment from 'moment'
+    import PrintHeader from './PrintHeader'
     export default {
         name: 'Print',
+        components: {
+            PrintHeader,
+        },
         mounted() {},
         data: function () {
             return {

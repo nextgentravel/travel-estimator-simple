@@ -1,77 +1,87 @@
 <template>
   <div>
-    <br>
-    <div v-if="loading">
-      <div class="spinner"></div>
-      Loading Domestic Cities
-    </div>
-    <div v-else>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label for="originInput" class="">From</label>
-            <autocomplete
-              aria-label="Origin"
-              ref="origin"
-              :search="originSearch"
-              :get-result-value="getOriginValue"
-              :default-value="origin"
-            >
-            </autocomplete>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label for="destinationInput" class="">To</label>
-            <autocomplete 
-              aria-label="Destination"
-              ref="destination"
-              :search="destinationSearch"
-              :get-result-value="getDestinationValue"
-              :default-value="destination"
+    <Header />
+    <div class="container">
+      <br>
+      <div v-if="loading">
+        <div class="spinner"></div>
+        Loading Domestic Cities
+      </div>
+      <div v-else>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="originInput" class="">From</label>
+              <autocomplete
+                aria-label="Origin"
+                ref="origin"
+                :search="originSearch"
+                :get-result-value="getOriginValue"
+                :default-value="origin"
               >
-            </autocomplete>
+              </autocomplete>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="destinationInput" class="">To</label>
+              <autocomplete 
+                aria-label="Destination"
+                ref="destination"
+                :search="destinationSearch"
+                :get-result-value="getDestinationValue"
+                :default-value="destination"
+                >
+              </autocomplete>
+            </div>
+          </div>
+          <div class="col-sm-4">
           </div>
         </div>
-        <div class="col-sm-4">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label for="destinationInput" class="">Dates</label><br>
-              <div class="datepicker-trigger">
-                <button class="btn btn-secondary btn-sm" id="datepicker-trigger">
-                  {{formatDates(departDate, returnDate)}}
-                </button>
-                <AirbnbStyleDatepicker
-                  :trigger-element-id="'datepicker-trigger'"
-                  :mode="'range'"
-                  :fullscreen-mobile="true"
-                  :date-one="this.departDate"
-                  :date-two="this.returnDate"
-                  @date-one-selected="val => { this.departDate = val }"
-                  @date-two-selected="val => { this.returnDate = val }"
-                />
-              </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="destinationInput" class="">Dates</label><br>
+                <div class="datepicker-trigger">
+                  <button class="btn btn-secondary btn-sm" id="datepicker-trigger">
+                    {{formatDates(departDate, returnDate)}}
+                  </button>
+                  <AirbnbStyleDatepicker
+                    :trigger-element-id="'datepicker-trigger'"
+                    :mode="'range'"
+                    :fullscreen-mobile="true"
+                    :date-one="this.departDate"
+                    :date-two="this.returnDate"
+                    @date-one-selected="val => { this.departDate = val }"
+                    @date-two-selected="val => { this.returnDate = val }"
+                  />
+                </div>
 
+            </div>
+          </div>
+          <div class="col-sm-8">
           </div>
         </div>
-        <div class="col-sm-8">
-        </div>
-      </div>
 
-      <div class="form-group">
-        <button class="btn btn-primary" v-on:click="submitTrip">Create Estimate</button>
+        <div class="form-group">
+          <button class="btn btn-primary" v-on:click="submitTrip">Create Estimate</button>
+        </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
   import moment from 'moment'
+  import Header from './Header'
+  import Footer from './Footer'
   export default {
     name: 'TripSelector',
+    components: {
+      Header,
+      Footer,
+    },
     data: function () {
       return {
         today: moment().format("MMM DD, YYYY"),
