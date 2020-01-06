@@ -30,7 +30,8 @@
                 <tr>
                     <td scope="row">
                         <div><strong>Accommodations</strong></div>
-                        <div><small><strong>{{this.store.estimate.accommodation.type}}</strong> at <strong>${{this.store.estimate.accommodation.rate}}</strong> per day</small></div>
+                        <div v-if="this.store.estimate.accommodation.type === 'Private Accommodations'"><small><strong>{{this.store.estimate.accommodation.type}}</strong> at <strong>$50</strong> per day</small></div>
+                        <div v-if="this.store.estimate.accommodation.type === 'Hotel'"><small><strong>{{this.store.estimate.accommodation.type}}</strong> at <strong>${{this.store.estimate.accommodation.rate}}</strong> per day</small></div>
                     </td>
                     <td>${{this.store.estimate.accommodation.amount.toFixed(2)}}</td>
                 </tr>
