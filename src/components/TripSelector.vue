@@ -95,8 +95,8 @@
     },
     mounted() {
       this.fetchData()
-      this.departDate = moment().format('YYYY-MM-DD');
-      this.returnDate = moment().add(5, 'days').format('YYYY-MM-DD');
+      this.departDate = this.departDate !== '' ? this.departDate : moment().format('YYYY-MM-DD');
+      this.returnDate = this.returnDate !== '' ? this.returnDate : moment().add(5, 'days').format('YYYY-MM-DD');
       this.$refs.origin.setValue(this.origin)
       this.$refs.destination.setValue(this.destination)
     },
