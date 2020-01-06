@@ -233,7 +233,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
   .button-custom {
     border: none;
@@ -265,6 +265,18 @@
     border-radius: 100%;
     -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
     animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+
+  .autocomplete-result-list {
+    border-radius: 0 0 0.375rem 0.375rem !important;
+    padding-bottom: 0px !important;
+    margin-top: -4px !important;
+    padding-top: 4px !important;
+    border: 1px solid #cbcccb !important;
+    border-width: 0px 1px 1px 1px !important;
+    border-top-color: #fff !important;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .16) !important;
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .16) !important;
   }
 
   @-webkit-keyframes sk-scaleout {
