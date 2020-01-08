@@ -11,8 +11,8 @@
         <div class="modal-body" style="margin-top: 10px;">
           <form>
             <div class="form-group">
-              <label for="userName">Your Name</label>
-              <input v-model="userName" type="text" class="form-control" id="userName" placeholder="Enter your name">
+              <label for="userName">Traveller's Name</label>
+              <input v-model="userName" type="text" class="form-control" id="userName" placeholder="Enter traveller's name">
             </div>
             <div class="form-group">
               <label for="tripName">Trip Name</label>

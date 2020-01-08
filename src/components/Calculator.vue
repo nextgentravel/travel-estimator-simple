@@ -74,10 +74,10 @@
                 <div class="col-sm-8">
                   <div class="form-check">
                     <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
-                    <label class="form-check-label" for="groundTransportationSelected">When you're there, how are you getting around? (Taxi, Bus, Personal Mileage)</label>
+                    <label class="form-check-label" for="groundTransportationSelected">Ground transportation (Taxi, Bus, Personal Mileage)</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><a class="ml-2" href="#" @click="showGroundTransportationModal = true" style="float: right;">Itemize</a></div>
+                <div class="col-sm-2"><a class="ml-2" href="#" @click="showGroundTransportationModal = true" style="float: right;">Help me estimate this</a></div>
                 <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
               </div>
               <div v-if="groundTransportationDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
