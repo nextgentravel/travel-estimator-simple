@@ -54,7 +54,7 @@
                     <td scope="row">
                         <div><strong>Meals and Incidentals</strong></div>
                         <div><small><strong>{{this.mealSummary.breakfast.count}}</strong> breakfasts at <strong>${{this.mealSummary.breakfast.rate}}</strong></small></div>
-                        <div><small><strong>{{this.mealSummary.lunch.count}}</strong> lunchs at <strong>${{this.mealSummary.lunch.rate}}</strong></small></div>
+                        <div><small><strong>{{this.mealSummary.lunch.count}}</strong> lunches at <strong>${{this.mealSummary.lunch.rate}}</strong></small></div>
                         <div><small><strong>{{this.mealSummary.dinner.count}}</strong> dinners at <strong>${{this.mealSummary.dinner.rate}}</strong></small></div>
                         <div><small><strong>{{this.mealSummary.incidental.count}}</strong> days of incidentals at <strong>${{this.mealSummary.incidental.rate}}</strong></small></div>
                     </td>
