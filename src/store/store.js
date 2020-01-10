@@ -26,7 +26,7 @@ const initialState = {
     noteToApprover: "",
     acrdResponse: "",
     estimate: {
-        accommodation: { selected: false, amount: 0, type: "Hotel" },
+        accommodation: { selected: false, amount: null, type: "Hotel" },
         mealsAndIncidentals: { selected: false, amount: 0, type: ""},
         transportation: {
             selected: false,

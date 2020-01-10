@@ -249,7 +249,10 @@ export default {
       if (this.accommodationType === "Private Accommodations") {
         amount = 50
       }
-      this.accommodationAmount = parseFloat(amount) * tripInfo.numberOfDays;
+      if (this.accommodationAmount === null) {
+        this.accommodationAmount = parseFloat(amount) * tripInfo.numberOfDays;
+      }
+      
       this.calculate();
     },
     setGroundTransportationTotal: function() {
