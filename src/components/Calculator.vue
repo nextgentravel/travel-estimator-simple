@@ -52,7 +52,7 @@
                   </div>
                 </div>
                 <div class="col-sm-4">
-                  <a href="#" @click="toggleMealsModal()" style="float: right;">Select meals to include</a>
+                  <a href="#" @click.prevent="toggleMealsModal()" style="float: right;">Select meals to include</a>
                 </div>
                 <div class="col-sm-2"><input @input="mealsAndIncidentalsSelectHandler" v-model="mealsAndIncidentalsAmount" class="form-control" disabled /></div>
               </div>
@@ -77,7 +77,7 @@
                     <label class="form-check-label" for="groundTransportationSelected">When you're there, how are you getting around? (Taxi, Bus, Personal Mileage)</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><a class="ml-2" href="#" @click="showGroundTransportationModal = true" style="float: right;">Itemize</a></div>
+                <div class="col-sm-2"><a class="ml-2" href="#" @click.prevent="showGroundTransportationModal = true" style="float: right;">Itemize</a></div>
                 <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
               </div>
               <div v-if="groundTransportationDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
@@ -118,7 +118,7 @@
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-12">
                   <!-- <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdhAD17ACye5P4rYfhfARCAuysri6xp_MN_ujxVxGtMuw384g/viewform?usp=sf_link','_blank');" class="btn btn-primary" style="float: right;">Submit</button> -->
-                  <button @click="showExportModal = true" class="btn btn-primary" style="float: right; margin-right: 5px;">Create Printable Estimate</button>
+                  <button @click.prevent="showExportModal = true" class="btn btn-primary" style="float: right; margin-right: 5px;">Create Printable Estimate</button>
                 </div>
               </div>
             </div>
