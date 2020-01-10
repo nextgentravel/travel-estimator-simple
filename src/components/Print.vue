@@ -29,9 +29,17 @@
             <tbody>
                 <tr>
                     <td scope="row">
-                        <div><strong>Accommodations</strong></div>
+                        <div><strong>Accommodations </strong>
+                            <span v-if="this.store.estimate.accommodation.amount > totalAcrdRate">
+                                <font-awesome-icon icon="exclamation-circle" />
+                            </span>
+                        </div>
                         <div v-if="this.store.estimate.accommodation.type === 'Private Accommodations'"><small><strong>{{this.store.estimate.accommodation.type}}</strong> at <strong>$50</strong> per day</small></div>
-                        <div v-if="this.store.estimate.accommodation.type === 'Hotel'"><small><strong>{{this.store.estimate.accommodation.type}}</strong> at <strong>${{this.store.estimate.accommodation.rate}}</strong> per day</small></div>
+                        <div v-if="this.store.estimate.accommodation.type === 'Hotel'">
+                            <small>
+                                Hotel city rate limit for <strong>{{store.destination}}</strong> on these dates is <strong>${{this.store.estimate.accommodation.rate}} (${{totalAcrdRate}})</strong>.
+                            </small>
+                        </div>
                     </td>
                     <td>${{this.store.estimate.accommodation.amount.toFixed(2)}}</td>
                 </tr>
@@ -117,6 +125,11 @@
                     return moment().format('YYYY-MM-DD')
                 }
             },
+            totalAcrdRate: {
+                get() {
+                    return this.store.estimate.accommodation.numberOfDays * this.store.estimate.accommodation.rate
+                }
+            }
         }
     }
 </script>

@@ -16,6 +16,13 @@ import TripSelector from './components/TripSelector.vue'
 import Print from './components/Print.vue'
 import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker'
 import 'vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faExclamationCircle)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 const datepickerOptions = {
   sundayFirst: true,

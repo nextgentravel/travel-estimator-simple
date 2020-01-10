@@ -241,6 +241,7 @@ export default {
       var returnDate = moment(this.returnDate);
       let numberOfDays = returnDate.diff(departDate, 'days')
       this.accommodationRate = acrdRate;
+      this.numberOfDays = numberOfDays;
       return { acrdRate, departDate, returnDate, numberOfDays }
     },
     setAccommodationTotal: function() {
@@ -438,6 +439,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateAccommodationRate', value)
+      }
+    },
+    numberOfDays: {
+      get() {
+        return this.$store.state.estimate.accommodation.numberOfDays
+      },
+      set(value) {
+        this.$store.commit('updateNumberOfDays', value)
       }
     },
     mealsByDay: {
