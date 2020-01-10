@@ -13,9 +13,9 @@
             <div class="col-sm-6">
               <strong>Home</strong> to <strong>{{origin.slice(0,-3)}}</strong> port or station.
               <br>
-              <small v-if="homeToOriginType === 'Taxi'">A taxi may cost <strong>~$25.</strong></small>
+              <!-- <small v-if="homeToOriginType === 'Taxi'">A taxi may cost <strong>~$25.</strong></small>
               <small v-if="homeToOriginType === 'Transit'">A transit pass may cost <strong>~$9.</strong></small>
-              <small v-if="homeToOriginType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre.</small>
+              <small v-if="homeToOriginType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre.</small> -->
             </div>
             <div class="col-sm-3">
               <select v-model="homeToOriginType" id="inputState" class="form-control">
@@ -32,9 +32,9 @@
             <div class="col-6">
               <strong>{{destination.slice(0,-3)}}</strong> port or station to <strong>accommodation.</strong>
               <br>
-              <small v-if="destinationToAccommodationType === 'Taxi'">A taxi may cost <strong>~$55.</strong></small>
+              <!-- <small v-if="destinationToAccommodationType === 'Taxi'">A taxi may cost <strong>~$55.</strong></small>
               <small v-if="destinationToAccommodationType === 'Transit'">A transit pass may cost <strong>~$12 per day.</strong></small>
-              <small v-if="destinationToAccommodationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small>
+              <small v-if="destinationToAccommodationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small> -->
             </div>
             <div class="col-sm-3">
               <select v-model="destinationToAccommodationType" id="inputState" class="form-control">
@@ -51,9 +51,9 @@
             <div class="col-6">
               Estimated daily ground transportation.
               <br>
-              <small v-if="dailyTransportationType === 'Taxi'">A taxi may cost <strong>~$12 each way.</strong></small>
+              <!-- <small v-if="dailyTransportationType === 'Taxi'">A taxi may cost <strong>~$12 each way.</strong></small>
               <small v-if="dailyTransportationType === 'Transit'">A transit pass may cost <strong>~$12 per day.</strong></small>
-              <small v-if="dailyTransportationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small>
+              <small v-if="dailyTransportationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small> -->
             </div>
             <div class="col-sm-3">
               <select v-model="dailyTransportationType" id="inputState" class="form-control">
@@ -70,9 +70,9 @@
             <div class="col-6">
               <strong>{{destination.slice(0,-3)}}</strong> <strong>accommodation</strong> to port or station.
               <br>
-              <small v-if="accommodationToDestinationType === 'Taxi'">A taxi may cost <strong>~$55.</strong></small>
+              <!-- <small v-if="accommodationToDestinationType === 'Taxi'">A taxi may cost <strong>~$55.</strong></small>
               <small v-if="accommodationToDestinationType === 'Transit'">A transit pass may cost <strong>~$12 per day.</strong></small>
-              <small v-if="accommodationToDestinationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small>
+              <small v-if="accommodationToDestinationType === 'Rental Car'">A rental may cost <strong>~$107 per day.</strong></small> -->
             </div>
             <div class="col-sm-3">
               <select v-model="accommodationToDestinationType" id="inputState" class="form-control">
@@ -89,10 +89,10 @@
             <div class="col-6">
               <strong>{{origin.slice(0,-3)}}</strong> port or station to <strong>home</strong>.
               <br>
-              <small v-if="originToHomeType === 'Transit'">A transit pass may cost <strong>~$9.</strong></small>
+              <!-- <small v-if="originToHomeType === 'Transit'">A transit pass may cost <strong>~$9.</strong></small>
               <small v-if="originToHomeType === 'Taxi'">A taxi may cost <strong>~$25.</strong></small>
               <small v-if="originToHomeType === 'Personal Vehicle'">You may claim <strong>.54c</strong> per kilometre</small>
-              <small v-if="originToHomeType === 'Rental Car'">A rental may cost <strong>~$78.</strong><br><span class="text-danger">Are you sure you want to rent a car for in {{origin}}?</span></small>
+              <small v-if="originToHomeType === 'Rental Car'">A rental may cost <strong>~$78.</strong><br><span class="text-danger">Are you sure you want to rent a car for in {{origin}}?</span></small> -->
             </div>
             <div class="col-sm-3">
               <select v-model="originToHomeType" id="inputState" class="form-control">
