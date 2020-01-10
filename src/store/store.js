@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex)
 
 const initialState = {
+    accommodationWarning: false,
     userName: '',
     tripName: '',
     tripCategory: '',
@@ -88,6 +89,10 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: initialState,
   mutations: {
+
+    updateAccommodationWarning (state, accommodationWarning) {
+        state.accommodationWarning = accommodationWarning
+    },
     updateUserName (state, userName) {
         state.userName = userName
     },

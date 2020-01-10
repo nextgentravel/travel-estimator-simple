@@ -161,7 +161,6 @@ export default {
   data: function() {
     return {
       moment,
-      accommodationWarning: false,
       transportDanger: false,
       groundTransportationDanger: false,
       otherDanger: false,
@@ -399,6 +398,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateNoteToApprover', value)
+      }
+    },
+    accommodationWarning: {
+      get() {
+        return this.$store.state.accommodationWarning
+      },
+      set(value) {
+        this.$store.commit('updateAccommodationWarning', value)
       }
     },
     showMealsModal: {

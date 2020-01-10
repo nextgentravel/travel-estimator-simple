@@ -19,6 +19,13 @@
             {{store.tripWhy}}
         </div>
         <br>
+
+        <div v-if="store.accommodationWarning" class="alert alert-warning" role="alert">
+            <h6><font-awesome-icon icon="exclamation-circle" />&nbsp;&nbsp;Explanation from Traveller - Rate Limit Exceeded</h6>
+            <p v-if="store.noteToApprover !== ''">{{store.noteToApprover}}</p>
+            <p v-else>No explanation provided.</p>
+        </div>
+
         <table class="table table-striped">
             <thead>
                 <tr>
