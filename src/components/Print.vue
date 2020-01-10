@@ -46,7 +46,10 @@
                 <tr>
                     <td scope="row">
                         <div><strong>Meals and Incidentals</strong></div>
-                        <div><small>For <strong>{{this.store.mealsByDay.length}}</strong> days</small></div>
+                        <div><small><strong>{{this.mealSummary.breakfast.count}}</strong> breakfasts at <strong>${{this.mealSummary.breakfast.rate}}</strong></small></div>
+                        <div><small><strong>{{this.mealSummary.lunch.count}}</strong> lunchs at <strong>${{this.mealSummary.lunch.rate}}</strong></small></div>
+                        <div><small><strong>{{this.mealSummary.dinner.count}}</strong> dinners at <strong>${{this.mealSummary.dinner.rate}}</strong></small></div>
+                        <div><small><strong>{{this.mealSummary.incidental.count}}</strong> days of incidentals at <strong>${{this.mealSummary.incidental.rate}}</strong></small></div>
                     </td>
                     <td>${{this.store.estimate.mealsAndIncidentals.amount.toFixed(2)}}</td>
                 </tr>
@@ -58,7 +61,7 @@
                     <td scope="row"><strong>Ground Transportation</strong></td>
                     <td>${{this.store.estimate.groundTransportation.amount.toFixed(2)}}</td>
                 </tr>
-                <tr v-if="this.store.estimate.selected">
+                <tr>
                     <td scope="row">
                         <div><strong>Other</strong></div>
                         <div><small>{{this.store.estimate.other.description}}</small></div>
@@ -128,6 +131,32 @@
             totalAcrdRate: {
                 get() {
                     return this.store.estimate.accommodation.numberOfDays * this.store.estimate.accommodation.rate
+                }
+            },
+            mealSummary: {
+                get() {
+                    let result = {
+                        breakfast: { count: 0, rate: this.$store.state.tripRates.breakfastRate },
+                        lunch: { count: 0, rate: this.$store.state.tripRates.lunchRate },
+                        dinner: { count: 0, rate: this.$store.state.tripRates.dinnerRate },
+                        incidental: { count: 0, rate: this.$store.state.tripRates.incidentalRate },
+                    }
+                    this.store.mealsByDay.forEach(item => {
+                        if (item.breakfast === true) {
+                            result.breakfast.count++
+                        }
+                        if (item.lunch === true) {
+                            result.lunch.count++
+                        }
+                        if (item.dinner === true) {
+                            result.dinner.count++
+                        }
+                        if (item.incidental === true) {
+                            result.incidental.count++
+                        }
+                    });
+                    console.log('result', result)
+                    return result
                 }
             }
         }
