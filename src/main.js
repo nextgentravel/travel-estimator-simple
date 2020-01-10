@@ -18,7 +18,7 @@ import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker'
 import 'vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css'
 
 const datepickerOptions = {
-  sundayFirst: false,
+  sundayFirst: true,
   dateLabelFormat: 'dddd, MMMM D, YYYY',
   days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   daysShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
