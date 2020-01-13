@@ -11,7 +11,6 @@ const initialState = {
     tripCategory: '',
     tripWhy: '',
     showMealsModal: false,
-    showGroundTransportationModal: false,
     showExportModal: false,
     cities: [],
     origin: null,
@@ -33,21 +32,21 @@ const initialState = {
             selected: false,
             amount: 0,
         },
-        groundTransportation: {
+        taxi: {
             selected: false,
             amount: 0,
-            lineItems: {
-                accommodationToDestinationAmount: 0,
-                accommodationToDestinationType: "",
-                dailyTransportationAmount: 0,
-                dailyTransportationType: "",
-                destinationToAccommodationAmount: 0,
-                destinationToAccommodationType: "",
-                homeToOriginAmount: 0,
-                homeToOriginType: "",
-                originToHomeAmount: 0,
-                originToHomeType: "",
-            }
+        },
+        personalVehicle: {
+            selected: false,
+            amount: 0,
+        },
+        carRental: {
+            selected: false,
+            amount: 0,
+        },
+        parking: {
+            selected: false,
+            amount: 0,
         },
         other: { selected: false, amount: 0, description: ""},
     },
@@ -111,9 +110,6 @@ export default new Vuex.Store({
     updateShowMealsModal (state, showMealsModal) {
         state.showMealsModal = showMealsModal
     },
-    updateShowGroundTransportationModal (state, showGroundTransportationModal) {
-        state.showGroundTransportationModal = showGroundTransportationModal
-    },
     updateTripRates (state, tripRates) {
         state.tripRates = tripRates
     },
@@ -159,8 +155,17 @@ export default new Vuex.Store({
     updateTransportationSelected (state, transportationSelected) {
         state.estimate.transportation.selected = transportationSelected
     },
-    updateGroundTransportationSelected (state, groundTransportationSelected) {
-        state.estimate.groundTransportation.selected = groundTransportationSelected
+    updateTaxiSelected (state, taxiSelected) {
+        state.estimate.taxi.selected = taxiSelected
+    },
+    updatePersonalVehicleSelected (state, personalVehicleSelected) {
+        state.estimate.personalVehicle.selected = personalVehicleSelected
+    },
+    updateCarRentalSelected (state, carRentalSelected) {
+        state.estimate.carRental.selected = carRentalSelected
+    },
+    updateParkingSelected (state, parkingSelected) {
+        state.estimate.parking.selected = parkingSelected
     },
     updateOtherSelected (state, otherSelected) {
         state.estimate.other.selected = otherSelected
@@ -183,6 +188,18 @@ export default new Vuex.Store({
     updateGroundTransportationAmount (state, groundTransportationAmount) {
         state.estimate.groundTransportation.amount = groundTransportationAmount
     },
+    updateTaxiAmount (state, taxiAmount) {
+        state.estimate.taxi.amount = taxiAmount
+    },
+    updatePersonalVehicleAmount (state, personalVehicleAmount) {
+        state.estimate.personalVehicle.amount = personalVehicleAmount
+    },
+    updateCarRentalAmount (state, carRentalAmount) {
+        state.estimate.carRental.amount = carRentalAmount
+    },
+    updateParkingAmount (state, parkingAmount) {
+        state.estimate.parking.amount = parkingAmount
+    },
     updateAccommodationType (state, accomodationType) {
         state.estimate.accommodation.type = accomodationType
     },
@@ -197,36 +214,6 @@ export default new Vuex.Store({
     },
     updateNoteToApprover (state, noteToApprover) {
         state.noteToApprover = noteToApprover
-    },
-    updateHomeToOriginType (state, homeToOriginType) {
-        state.estimate.groundTransportation.lineItems.homeToOriginType = homeToOriginType
-    },
-    updateHomeToOriginAmount (state, homeToOriginAmount) {
-        state.estimate.groundTransportation.lineItems.homeToOriginAmount = homeToOriginAmount
-    },
-    updateDestinationToAccommodationType (state, destinationToAccommodationType) {
-        state.estimate.groundTransportation.lineItems.destinationToAccommodationType = destinationToAccommodationType
-    },
-    updateDestinationToAccommodationAmount (state, destinationToAccommodationAmount) {
-        state.estimate.groundTransportation.lineItems.destinationToAccommodationAmount = destinationToAccommodationAmount
-    },
-    updateDailyTransportationType (state, dailyTransportationType) {
-        state.estimate.groundTransportation.lineItems.dailyTransportationType = dailyTransportationType
-    },
-    updateDailyTransportationAmount (state, dailyTransportationAmount) {
-        state.estimate.groundTransportation.lineItems.dailyTransportationAmount = dailyTransportationAmount
-    },
-    updateAccommodationToDestinationType (state, accommodationToDestinationType) {
-        state.estimate.groundTransportation.lineItems.accommodationToDestinationType = accommodationToDestinationType
-    },
-    updateAccommodationToDestinationAmount (state, accommodationToDestinationAmount) {
-        state.estimate.groundTransportation.lineItems.accommodationToDestinationAmount = accommodationToDestinationAmount
-    },
-    updateOriginToHomeType (state, originToHomeType) {
-        state.estimate.groundTransportation.lineItems.originToHomeType = originToHomeType
-    },
-    updateOriginToHomeAmount (state, originToHomeAmount) {
-        state.estimate.groundTransportation.lineItems.originToHomeAmount = originToHomeAmount
     },
   },
   

@@ -3,7 +3,6 @@
     <Header />
     <div class="container">
       <MealsModal ref="modalclose" v-show="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
-      <GroundTransportationModal v-if="showGroundTransportationModal" :setGroundTransportationTotal="this.setGroundTransportationTotal" />
       <ExportModal v-if="showExportModal" />
       <br>
       <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
@@ -71,16 +70,57 @@
                 </div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                   <div class="form-check">
-                    <input @change="calculate()" v-model="groundTransportationSelected" type="checkbox" class="form-check-input" id="groundTransportationSelected">
-                    <label class="form-check-label" for="groundTransportationSelected">Ground transportation (Taxi, Bus, Personal Mileage)</label>
+                    <input @change="calculate()" v-model="taxiSelected" type="checkbox" class="form-check-input" id="taxiSelected">
+                    <label class="form-check-label" for="taxiSelected">Taxi</label>
                   </div>
                 </div>
-                <div class="col-sm-4"><a class="ml-2" href="#" @click="showGroundTransportationModal = true" style="float: right;">Help me estimate this</a></div>
-                <div class="col-sm-2"><input @input="groundTransportationSelectHandler" v-model="groundTransportationAmount" class="form-control" v-bind:class="{ danger: groundTransportationDanger }" /></div>
+                <div class="col-sm-2"><input @input="taxiSelectHandler" v-model="taxiAmount" class="form-control" v-bind:class="{ danger: taxiDanger }" /></div>
               </div>
-              <div v-if="groundTransportationDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
+              <div v-if="taxiDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="personalVehicleSelected" type="checkbox" class="form-check-input" id="personalVehicleSelected">
+                    <label class="form-check-label" for="personalVehicleSelected">Personal Vehicle</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
+              </div>
+              <div v-if="personalVehicleDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="carRentalSelected" type="checkbox" class="form-check-input" id="carRentalSelected">
+                    <label class="form-check-label" for="carRentalSelected">Car Rental</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="carRentalSelectHandler" v-model="carRentalAmount" class="form-control" v-bind:class="{ danger: carRentalDanger }" /></div>
+              </div>
+              <div v-if="carRentalDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
+                <div class="col-sm-12">
+                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input @change="calculate()" v-model="parkingSelected" type="checkbox" class="form-check-input" id="parkingSelected">
+                    <label class="form-check-label" for="parkingSelected">Parking</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="parkingSelectHandler" v-model="parkingAmount" class="form-control" v-bind:class="{ danger: parkingDanger }" /></div>
+              </div>
+              <div v-if="parkingDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
                 <div class="col-sm-12">
                   <small class="text-danger">Add an estimated cost, or deselect this item.</small>
                 </div>
@@ -138,7 +178,6 @@
 <script>
 import moment from 'moment'
 import MealsModal from './MealsModal'
-import GroundTransportationModal from './GroundTransportationModal'
 import ExportModal from './ExportModal'
 import Header from './Header'
 import Footer from './Footer'
@@ -146,7 +185,6 @@ export default {
   name: 'Calculator',
   components: {
     MealsModal,
-    GroundTransportationModal,
     ExportModal,
     Header,
     Footer,
@@ -162,7 +200,10 @@ export default {
     return {
       moment,
       transportDanger: false,
-      groundTransportationDanger: false,
+      taxiDanger: false,
+      personalVehicleDanger: false,
+      carRentalDanger: false,
+      parkingDanger: false,
       otherDanger: false,
     }
   },
@@ -197,11 +238,17 @@ export default {
                 (this.accommodationSelected ? parseFloat(this.accommodationAmount) : 0) +
                 (this.mealsAndIncidentalsSelected ? parseFloat(this.mealsAndIncidentalsAmount) : 0) +
                 (this.transportationSelected ? parseFloat(this.transportationAmount) : 0) +
-                (this.groundTransportationSelected ? parseFloat(this.groundTransportationAmount) : 0) +
+                (this.taxiSelected ? parseFloat(this.taxiAmount) : 0) +
+                (this.personalVehicleSelected ? parseFloat(this.personalVehicleAmount) : 0) +
+                (this.carRentalSelected ? parseFloat(this.carRentalAmount) : 0) +
+                (this.parkingSelected ? parseFloat(this.parkingAmount) : 0) +
                 (this.otherSelected ? parseFloat(this.otherAmount) : 0);
                 this.validateAccomodationTotal()
                 this.validateTransportTotal()
-                this.validateGroundTransportationTotal()
+                this.validateTaxiTotal()
+                this.validatePersonalVehicleTotal()
+                this.validateCarRentalTotal()
+                this.validateParkingTotal()
                 this.validateOtherTotal()
       this.calculatedTotal = amount.toFixed(2);
     },
@@ -220,11 +267,32 @@ export default {
         this.transportDanger = false;
       }
     },
-    validateGroundTransportationTotal: function () {
-      if (this.groundTransportationSelected && (parseInt(this.groundTransportationAmount) === 0 || isNaN(this.groundTransportationAmount))) {
-        this.groundTransportationDanger = true;
+    validateTaxiTotal: function () {
+      if (this.taxiSelected && (parseInt(this.taxiAmount) === 0 || isNaN(this.taxiAmount))) {
+        this.taxiDanger = true;
       } else {
-        this.groundTransportationDanger = false;
+        this.taxiDanger = false;
+      }
+    },
+    validatePersonalVehicleTotal: function () {
+      if (this.personalVehicleSelected && (parseInt(this.personalVehicleAmount) === 0 || isNaN(this.personalVehicleAmount))) {
+        this.personalVehicleDanger = true;
+      } else {
+        this.personalVehicleDanger = false;
+      }
+    },
+    validateCarRentalTotal: function () {
+      if (this.carRentalSelected && (parseInt(this.carRentalAmount) === 0 || isNaN(this.carRentalAmount))) {
+        this.carRentalDanger = true;
+      } else {
+        this.carRentalDanger = false;
+      }
+    },
+    validateParkingTotal: function () {
+      if (this.parkingSelected && (parseInt(this.parkingAmount) === 0 || isNaN(this.parkingAmount))) {
+        this.parkingDanger = true;
+      } else {
+        this.parkingDanger = false;
       }
     },
     validateOtherTotal: function () {
@@ -254,16 +322,6 @@ export default {
       }
       
       this.calculate();
-    },
-    setGroundTransportationTotal: function() {
-      let tripInfo = this.tripInfo();
-      this.groundTransportationAmount = this.transportation.lineItems.homeToOriginAmount +
-      this.transportation.lineItems.destinationToAccommodationAmount +
-      (this.transportation.lineItems.dailyTransportationAmount * (tripInfo.numberOfDays - 2)) +
-      this.transportation.lineItems.accommodationToDestinationAmount +
-      this.transportation.lineItems.originToHomeAmount
-      this.calculate();
-      this.groundTransportationSelectHandler()
     },
     setMealsIncidentals: function() {
       var departDate = moment(this.departDate);
@@ -342,11 +400,35 @@ export default {
       }
       this.calculate();
     },
-    groundTransportationSelectHandler: function () {
-      if (this.groundTransportationAmount > 0) {
-        this.groundTransportationSelected = true;
+    taxiSelectHandler: function () {
+      if (this.taxiAmount > 0) {
+        this.taxiSelected = true;
       } else {
-        this.groundTransportationSelected = false;
+        this.taxiSelected = false;
+      }
+      this.calculate();
+    },
+    personalVehicleSelectHandler: function () {
+      if (this.personalVehicleAmount > 0) {
+        this.personalVehicleSelected = true;
+      } else {
+        this.personalVehicleSelected = false;
+      }
+      this.calculate();
+    },
+    carRentalSelectHandler: function () {
+      if (this.carRentalAmount > 0) {
+        this.carRentalSelected = true;
+      } else {
+        this.carRentalSelected = false;
+      }
+      this.calculate();
+    },
+    parkingSelectHandler: function () {
+      if (this.parkingAmount > 0) {
+        this.parkingSelected = true;
+      } else {
+        this.parkingSelected = false;
       }
       this.calculate();
     },
@@ -363,7 +445,7 @@ export default {
   },
   computed: {
     transportation () {
-      return this.$store.state.estimate.groundTransportation
+      return this.$store.state.estimate.transportation
     },
     travelMonth () {
       return moment(this.$store.state.departDate).subtract(1, "month").startOf("month").format('MMMM')
@@ -424,14 +506,6 @@ export default {
         this.$store.commit('updateShowExportModal', value)
       }
     },
-    showGroundTransportationModal: {
-      get() {
-        return this.$store.state.showGroundTransportationModal
-      },
-      set(value) {
-        this.$store.commit('updateShowGroundTransportationModal', value)
-      }
-    },
     accommodationSelected: {
       get() {
         return this.$store.state.estimate.accommodation.selected
@@ -480,12 +554,36 @@ export default {
         this.$store.commit('updateTransportationSelected', value)
       }
     },
-    groundTransportationSelected: {
+    taxiSelected: {
       get() {
-        return this.$store.state.estimate.groundTransportation.selected
+        return this.$store.state.estimate.taxi.selected
       },
       set(value) {
-        this.$store.commit('updateGroundTransportationSelected', value)
+        this.$store.commit('updateTaxiSelected', value)
+      }
+    },
+    personalVehicleSelected: {
+      get() {
+        return this.$store.state.estimate.personalVehicle.selected
+      },
+      set(value) {
+        this.$store.commit('updatePersonalVehicleSelected', value)
+      }
+    },
+    carRentalSelected: {
+      get() {
+        return this.$store.state.estimate.carRental.selected
+      },
+      set(value) {
+        this.$store.commit('updateCarRentalSelected', value)
+      }
+    },
+    parkingSelected: {
+      get() {
+        return this.$store.state.estimate.parking.selected
+      },
+      set(value) {
+        this.$store.commit('updateParkingSelected', value)
       }
     },
     otherSelected: {
@@ -556,13 +654,40 @@ export default {
         this.$store.commit('updateTransportationAmount', parseFloat(value))
       }
     },
-    groundTransportationAmount: {
+    taxiAmount: {
       get() {
-        return this.$store.state.estimate.groundTransportation.amount
+        return this.$store.state.estimate.taxi.amount
       },
       set(value) {
         if (isNaN(parseFloat(value))) { value = 0 }
-        this.$store.commit('updateGroundTransportationAmount', parseFloat(value))
+        this.$store.commit('updateTaxiAmount', parseFloat(value))
+      }
+    },
+    personalVehicleAmount: {
+      get() {
+        return this.$store.state.estimate.personalVehicle.amount
+      },
+      set(value) {
+        if (isNaN(parseFloat(value))) { value = 0 }
+        this.$store.commit('updatePersonalVehicleAmount', parseFloat(value))
+      }
+    },
+    carRentalAmount: {
+      get() {
+        return this.$store.state.estimate.carRental.amount
+      },
+      set(value) {
+        if (isNaN(parseFloat(value))) { value = 0 }
+        this.$store.commit('updateCarRentalAmount', parseFloat(value))
+      }
+    },
+    parkingAmount: {
+      get() {
+        return this.$store.state.estimate.parking.amount
+      },
+      set(value) {
+        if (isNaN(parseFloat(value))) { value = 0 }
+        this.$store.commit('updateParkingAmount', parseFloat(value))
       }
     },
     calculatedTotal: {

@@ -65,8 +65,20 @@
                     <td>${{this.store.estimate.transportation.amount.toFixed(2)}}</td>
                 </tr>
                 <tr>
-                    <td scope="row"><strong>Ground Transportation</strong></td>
-                    <td>${{this.store.estimate.groundTransportation.amount.toFixed(2)}}</td>
+                    <td scope="row"><strong>Taxi</strong></td>
+                    <td>${{this.store.estimate.taxi.amount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td scope="row"><strong>Personal Vehicle</strong></td>
+                    <td>${{this.store.estimate.personalVehicle.amount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td scope="row"><strong>Car Rental</strong></td>
+                    <td>${{this.store.estimate.carRental.amount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td scope="row"><strong>Parking</strong></td>
+                    <td>${{this.store.estimate.parking.amount.toFixed(2)}}</td>
                 </tr>
                 <tr>
                     <td scope="row">
@@ -162,7 +174,6 @@
                             result.incidental.count++
                         }
                     });
-                    console.log('result', result)
                     return result
                 }
             }
