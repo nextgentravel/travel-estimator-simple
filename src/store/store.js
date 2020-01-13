@@ -39,6 +39,23 @@ const initialState = {
         personalVehicle: {
             selected: false,
             amount: 0,
+            rates: { 
+                "AB": 47.5,
+                "BC": 54.0,
+                "MB": 50.5,
+                "NB": 52.5,
+                "NL": 56.0,
+                "NT": 62.0,
+                "NS": 52.5,
+                "NU": 59.5,
+                "ON": 56.5,
+                "PE": 51.0,
+                "QC": 53.5,
+                "SK": 50.0,
+                "YT": 61.0,
+            },
+            kilometres: 0,
+            selectedRate: 56.5,
         },
         carRental: {
             selected: false,
@@ -193,6 +210,12 @@ export default new Vuex.Store({
     },
     updatePersonalVehicleAmount (state, personalVehicleAmount) {
         state.estimate.personalVehicle.amount = personalVehicleAmount
+    },
+    updatePersonalVehicleRate (state, personalVehicleSelectedRate) {
+        state.estimate.personalVehicle.selectedRate = personalVehicleSelectedRate
+    },
+    updatePersonalVehicleKilometres (state, personalVehicleKilometres) {
+        state.estimate.personalVehicle.kilometres = personalVehicleKilometres
     },
     updateCarRentalAmount (state, carRentalAmount) {
         state.estimate.carRental.amount = carRentalAmount

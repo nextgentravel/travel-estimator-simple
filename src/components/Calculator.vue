@@ -90,8 +90,28 @@
                     <label class="form-check-label" for="personalVehicleSelected">Personal Vehicle</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><input @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
+                <div class="col-sm-2"><input disabled @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
               </div>
+
+
+
+
+              <div v-if="personalVehicleSelected" class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-1">
+
+                </div>
+                <div class="col-sm-11">
+                  <form class="form-inline">
+                    <input @input="calculatePersonalVehicle" v-model="personalVehicleKilometres" class="form-control mb-2 mr-sm-2 mb-sm-0" style="width: 5em;" />
+                    <span><strong>km</strong>&nbsp;in vehicle registered in</span>
+                    <select @change="calculatePersonalVehicle" v-model="selectedKilometricRate" id="inputState" class="custom-select mb-2 ml-sm-2 mb-sm-0" style="width: 8em;">
+                      <option v-for="(value, name) in kilometricRates" v-bind:key="name" v-bind:value="value">{{name}} - {{value}}c</option>
+                    </select>
+                  </form>
+                </div>
+              </div>
+
+              
               <div v-if="personalVehicleDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
                 <div class="col-sm-12">
                   <small class="text-danger">Add an estimated cost, or deselect this item.</small>
@@ -233,6 +253,11 @@ export default {
         return `${moment(this.departDate).format('MMM D')} - ${moment(this.returnDate).format('MMM D, YYYY')}`
       }
     },
+    calculatePersonalVehicle: function() {
+      let result = (this.selectedKilometricRate / 100) * this.personalVehicleKilometres
+      this.personalVehicleAmount = result.toFixed(2);
+      this.calculate();
+    },
     calculate: function() {
       let amount = 
                 (this.accommodationSelected ? parseFloat(this.accommodationAmount) : 0) +
@@ -371,7 +396,6 @@ export default {
           }
 
           this.tripRates = tripRates;
-
           this.mealsAndIncidentalsAmount = mealsAndIncidentalsTotal.toFixed(2)
           this.calculate();
 
@@ -414,9 +438,11 @@ export default {
       } else {
         this.personalVehicleSelected = false;
       }
+      this.personalVehicleKilometres = 0;
       this.calculate();
     },
     carRentalSelectHandler: function () {
+      this.kilometres = 0;
       if (this.carRentalAmount > 0) {
         this.carRentalSelected = true;
       } else {
@@ -672,6 +698,21 @@ export default {
         this.$store.commit('updatePersonalVehicleAmount', parseFloat(value))
       }
     },
+    kilometricRates: {
+      get() {
+        return this.$store.state.estimate.personalVehicle.rates
+      },
+    },
+    selectedKilometricRate: {
+      get() {
+        console.log(this.$store.state.estimate.personalVehicle.selectedRate)
+        return this.$store.state.estimate.personalVehicle.selectedRate
+      },
+      set(value) {
+        if (isNaN(parseFloat(value))) { value = 0 }
+        this.$store.commit('updatePersonalVehicleRate', parseFloat(value))
+      }
+    },
     carRentalAmount: {
       get() {
         return this.$store.state.estimate.carRental.amount
@@ -679,6 +720,15 @@ export default {
       set(value) {
         if (isNaN(parseFloat(value))) { value = 0 }
         this.$store.commit('updateCarRentalAmount', parseFloat(value))
+      }
+    },
+    personalVehicleKilometres: {
+      get() {
+        return this.$store.state.estimate.personalVehicle.kilometres
+      },
+      set(value) {
+        if (isNaN(parseFloat(value))) { value = 0 }
+        this.$store.commit('updatePersonalVehicleKilometres', parseFloat(value))
       }
     },
     parkingAmount: {
