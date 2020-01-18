@@ -9,11 +9,20 @@
           </button>
         </div>
         <div class="modal-body" style="margin-top: 10px;">
-
+            <form class="form-inline">
+                <input @input="calculate" class="form-control" v-model="kilometres" />
+                <span style="padding: .5em;">
+                    kilometres in your vehicle registered in
+                </span>
+                <select id="inputState" class="form-control" v-model="selectedRate">
+                    <option v-for="(value, name) in personalVehicle.rates" v-bind:key="name" v-bind:value="value">{{name}}</option>
+                </select>
+                <span style="padding: .5em;">at {{selectedRate}} cents per kilometre</span>
+            </form>
         </div>
         <div class="modal-footer">
           <div>
-            <!-- <div style="margin-bottom: 10px;">${{mealsAndIncidentalsAmount.toFixed(2)}}</div> -->
+            <div style="margin-bottom: 10px;">${{amount.toFixed(2)}}</div>
             <button type="button" class="btn btn-primary" @click="showPersonalVehicleModal = false">Done</button>
           </div>
         </div>
@@ -26,8 +35,36 @@
   export default {
     name: 'PersonalVehicleModal',
     mounted() {},
-    methods: {},
+    methods: {
+        calculate() {
+            this.amount = this.kilometres * (this.selectedRate / 100);
+        }
+    },
     computed: {
+      amount: {
+        get() {
+          return this.$store.state.estimate.personalVehicle.amount
+        },
+        set(value) {
+          this.$store.commit('updatePersonalVehicleAmount', value)
+        }
+      },
+      kilometres: {
+        get() {
+          return this.$store.state.estimate.personalVehicle.kilometres
+        },
+        set(value) {
+          this.$store.commit('updatePersonalVehicleKilometres', value)
+        }
+      },
+      selectedRate: {
+        get() {
+          return this.$store.state.estimate.personalVehicle.selectedRate
+        },
+        set(value) {
+          this.$store.commit('updatePersonalVehicleRate', value)
+        }
+      },
       showPersonalVehicleModal: {
         get() {
           return this.$store.state.showPersonalVehicleModal
@@ -35,6 +72,11 @@
         set(value) {
           this.$store.commit('updateShowPersonalVehicleModal', value)
         }
+      },
+      personalVehicle: {
+        get() {
+          return this.$store.state.estimate.personalVehicle
+        },
       },
     }
   }
