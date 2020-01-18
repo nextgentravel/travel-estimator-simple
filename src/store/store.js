@@ -4,108 +4,122 @@ import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
-const initialState = {
-    accommodationWarning: false,
-    userName: '',
-    tripName: '',
-    tripCategory: '',
-    tripWhy: '',
-    showMealsModal: false,
-    showExportModal: false,
-    cities: [],
-    origin: null,
-    destination: null,
-    departDate: '',
-    returnDate: '',
-    perDiem: {
-        dailyRate: 0,
-    },
-    other: [
-        { item: "", cost: "" }
-    ],
-    noteToApprover: "",
-    acrdResponse: "",
-    estimate: {
-        accommodation: { selected: false, amount: null, type: "Hotel" },
-        mealsAndIncidentals: { selected: false, amount: 0, type: ""},
-        transportation: {
-            selected: false,
-            amount: 0,
+const getDefaultState = () => {
+        return {
+        accommodationWarning: false,
+        userName: '',
+        tripName: '',
+        tripCategory: '',
+        tripWhy: '',
+        showMealsModal: false,
+        showExportModal: false,
+        cities: [],
+        origin: null,
+        destination: null,
+        departDate: '',
+        returnDate: '',
+        perDiem: {
+            dailyRate: 0,
         },
-        taxi: {
-            selected: false,
-            amount: 0,
-        },
-        personalVehicle: {
-            selected: false,
-            amount: 0,
-            rates: { 
-                "AB": 47.5,
-                "BC": 54.0,
-                "MB": 50.5,
-                "NB": 52.5,
-                "NL": 56.0,
-                "NT": 62.0,
-                "NS": 52.5,
-                "NU": 59.5,
-                "ON": 56.5,
-                "PE": 51.0,
-                "QC": 53.5,
-                "SK": 50.0,
-                "YT": 61.0,
+        other: [
+            { item: "", cost: "" }
+        ],
+        noteToApprover: "",
+        acrdResponse: "",
+        estimate: {
+            accommodation: { selected: false, amount: null, type: "Hotel" },
+            mealsAndIncidentals: { selected: false, amount: 0, type: ""},
+            transportation: {
+                selected: false,
+                amount: 0,
             },
-            kilometres: 0,
-            selectedRate: 56.5,
+            taxi: {
+                selected: false,
+                amount: 0,
+            },
+            personalVehicle: {
+                selected: false,
+                amount: 0,
+                rates: { 
+                    "AB": 47.5,
+                    "BC": 54.0,
+                    "MB": 50.5,
+                    "NB": 52.5,
+                    "NL": 56.0,
+                    "NT": 62.0,
+                    "NS": 52.5,
+                    "NU": 59.5,
+                    "ON": 56.5,
+                    "PE": 51.0,
+                    "QC": 53.5,
+                    "SK": 50.0,
+                    "YT": 61.0,
+                },
+                kilometres: 0,
+                selectedRate: 56.5,
+            },
+            carRental: {
+                selected: false,
+                amount: 0,
+            },
+            airTravel: {
+                selected: false,
+                amount: 0,
+            },
+            railTravel: {
+                selected: false,
+                amount: 0,
+            },
+            other: { selected: false, amount: 0, description: ""},
         },
-        carRental: {
-            selected: false,
-            amount: 0,
+        training: false,
+        conference: false,
+        calculatedTotal: "-:--",
+        tripRates: {},
+        mealsAndIncidentals: {
+            YT: {
+                breakfast: 22.75,
+                lunch: 20.90,
+                dinner: 60.25,
+                incidentals: 17.30
+            },
+            TN: {
+                breakfast: 24.15,
+                lunch: 29.30,
+                dinner: 62.70,
+                incidentals: 17.30
+            },
+            NU: {
+                breakfast: 27.35,
+                lunch: 33.20,
+                dinner: 88.45,
+                incidentals: 17.30
+            },
+            CAN: {
+                breakfast: 20.35,
+                lunch: 20.60,
+                dinner: 50.55,
+                incidentals: 17.30
+            },
         },
-        parking: {
-            selected: false,
-            amount: 0,
-        },
-        other: { selected: false, amount: 0, description: ""},
-    },
-    training: false,
-    conference: false,
-    calculatedTotal: "-:--",
-    tripRates: {},
-    mealsAndIncidentals: {
-        YT: {
-            breakfast: 22.75,
-            lunch: 20.90,
-            dinner: 60.25,
-            incidentals: 17.30
-        },
-        TN: {
-            breakfast: 24.15,
-            lunch: 29.30,
-            dinner: 62.70,
-            incidentals: 17.30
-        },
-        NU: {
-            breakfast: 27.35,
-            lunch: 33.20,
-            dinner: 88.45,
-            incidentals: 17.30
-        },
-        CAN: {
-            breakfast: 20.35,
-            lunch: 20.60,
-            dinner: 50.55,
-            incidentals: 17.30
-        },
-    },
-    mealsByDay: [],
-  }
+        mealsByDay: [],
+    }
+}
+
+const state = getDefaultState()
 
 
 export default new Vuex.Store({
   plugins: [createPersistedState()],
-  state: initialState,
+  state: state,
   mutations: {
-
+    resetState (state) {
+        Object.assign(state, getDefaultState())
+    },
+    resetStateNewTrip (state, newTripObject) {
+        const merged = {...getDefaultState(), ...newTripObject}
+        Object.assign(state, merged)
+    },
     updateAccommodationWarning (state, accommodationWarning) {
         state.accommodationWarning = accommodationWarning
     },
@@ -181,8 +195,8 @@ export default new Vuex.Store({
     updateCarRentalSelected (state, carRentalSelected) {
         state.estimate.carRental.selected = carRentalSelected
     },
-    updateParkingSelected (state, parkingSelected) {
-        state.estimate.parking.selected = parkingSelected
+    updateAirTravelSelected (state, airTravelSelected) {
+        state.estimate.airTravel.selected = airTravelSelected
     },
     updateOtherSelected (state, otherSelected) {
         state.estimate.other.selected = otherSelected
@@ -220,8 +234,11 @@ export default new Vuex.Store({
     updateCarRentalAmount (state, carRentalAmount) {
         state.estimate.carRental.amount = carRentalAmount
     },
-    updateParkingAmount (state, parkingAmount) {
-        state.estimate.parking.amount = parkingAmount
+    updateAirTravelAmount (state, airTravelAmount) {
+        state.estimate.airTravel.amount = airTravelAmount
+    },
+    updateRailTravelAmount (state, railTravelAmount) {
+        state.estimate.railTravel.amount = railTravelAmount
     },
     updateAccommodationType (state, accomodationType) {
         state.estimate.accommodation.type = accomodationType

@@ -70,9 +70,44 @@
                 </div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                   <div class="form-check">
                     <input @change="calculate()" v-model="taxiSelected" type="checkbox" class="form-check-input" id="taxiSelected">
+                    <label class="form-check-label" for="taxiSelected">Transportation</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <div class="form-check">
+                    <label class="form-check-label" for="airTravelSelected">Air Travel</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="airTravelSelectHandler" v-model="airTravelAmount" class="form-control" v-bind:class="{ danger: airTravelDanger }" /></div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <div class="form-check">
+                    <label class="form-check-label" for="railTravelSelected">Rail</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="railTravelSelectHandler" v-model="railTravelAmount" class="form-control" v-bind:class="{ danger: railTravelDanger }" /></div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <div class="form-check">
+                    <label class="form-check-label" for="carRentalSelected">Car Rental</label>
+                  </div>
+                </div>
+                <div class="col-sm-2"><input @input="carRentalSelectHandler" v-model="carRentalAmount" class="form-control" v-bind:class="{ danger: carRentalDanger }" /></div>
+              </div>
+              <div class="row" style="margin-bottom: 15px; align-items: center;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <div class="form-check">
                     <label class="form-check-label" for="taxiSelected">Taxi</label>
                   </div>
                 </div>
@@ -84,66 +119,13 @@
                 </div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
-                <div class="col-sm-10">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
                   <div class="form-check">
-                    <input @change="calculate()" v-model="personalVehicleSelected" type="checkbox" class="form-check-input" id="personalVehicleSelected">
                     <label class="form-check-label" for="personalVehicleSelected">Personal Vehicle</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><input disabled @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
-              </div>
-
-
-
-
-              <div v-if="personalVehicleSelected" class="row" style="margin-bottom: 15px; align-items: center;">
-                <div class="col-sm-1">
-
-                </div>
-                <div class="col-sm-11">
-                  <form class="form-inline">
-                    <input @input="calculatePersonalVehicle" v-model="personalVehicleKilometres" class="form-control mb-2 mr-sm-2 mb-sm-0" style="width: 5em;" />
-                    <span><strong>km</strong>&nbsp;in vehicle registered in</span>
-                    <select @change="calculatePersonalVehicle" v-model="selectedKilometricRate" id="inputState" class="custom-select mb-2 ml-sm-2 mb-sm-0" style="width: 8em;">
-                      <option v-for="(value, name) in kilometricRates" v-bind:key="name" v-bind:value="value">{{name}} - {{value}}c</option>
-                    </select>
-                  </form>
-                </div>
-              </div>
-
-              
-              <div v-if="personalVehicleDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
-                <div class="col-sm-12">
-                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
-                </div>
-              </div>
-              <div class="row" style="margin-bottom: 15px; align-items: center;">
-                <div class="col-sm-10">
-                  <div class="form-check">
-                    <input @change="calculate()" v-model="carRentalSelected" type="checkbox" class="form-check-input" id="carRentalSelected">
-                    <label class="form-check-label" for="carRentalSelected">Car Rental</label>
-                  </div>
-                </div>
-                <div class="col-sm-2"><input @input="carRentalSelectHandler" v-model="carRentalAmount" class="form-control" v-bind:class="{ danger: carRentalDanger }" /></div>
-              </div>
-              <div v-if="carRentalDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
-                <div class="col-sm-12">
-                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
-                </div>
-              </div>
-              <div class="row" style="margin-bottom: 15px; align-items: center;">
-                <div class="col-sm-10">
-                  <div class="form-check">
-                    <input @change="calculate()" v-model="parkingSelected" type="checkbox" class="form-check-input" id="parkingSelected">
-                    <label class="form-check-label" for="parkingSelected">Parking</label>
-                  </div>
-                </div>
-                <div class="col-sm-2"><input @input="parkingSelectHandler" v-model="parkingAmount" class="form-control" v-bind:class="{ danger: parkingDanger }" /></div>
-              </div>
-              <div v-if="parkingDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
-                <div class="col-sm-12">
-                  <small class="text-danger">Add an estimated cost, or deselect this item.</small>
-                </div>
+                <div class="col-sm-2"><input @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-5">
@@ -223,7 +205,8 @@ export default {
       taxiDanger: false,
       personalVehicleDanger: false,
       carRentalDanger: false,
-      parkingDanger: false,
+      airTravelDanger: false,
+      railTravelDanger: false,
       otherDanger: false,
     }
   },
@@ -266,14 +249,15 @@ export default {
                 (this.taxiSelected ? parseFloat(this.taxiAmount) : 0) +
                 (this.personalVehicleSelected ? parseFloat(this.personalVehicleAmount) : 0) +
                 (this.carRentalSelected ? parseFloat(this.carRentalAmount) : 0) +
-                (this.parkingSelected ? parseFloat(this.parkingAmount) : 0) +
+                (this.airTravelSelected ? parseFloat(this.airTravelAmount) : 0) +
+                (this.railTravelSelected ? parseFloat(this.railTravelAmount) : 0) +
                 (this.otherSelected ? parseFloat(this.otherAmount) : 0);
                 this.validateAccomodationTotal()
                 this.validateTransportTotal()
                 this.validateTaxiTotal()
                 this.validatePersonalVehicleTotal()
                 this.validateCarRentalTotal()
-                this.validateParkingTotal()
+                this.validateairTravelTotal()
                 this.validateOtherTotal()
       this.calculatedTotal = amount.toFixed(2);
     },
@@ -313,11 +297,11 @@ export default {
         this.carRentalDanger = false;
       }
     },
-    validateParkingTotal: function () {
-      if (this.parkingSelected && (parseInt(this.parkingAmount) === 0 || isNaN(this.parkingAmount))) {
-        this.parkingDanger = true;
+    validateairTravelTotal: function () {
+      if (this.airTravelSelected && (parseInt(this.airTravelAmount) === 0 || isNaN(this.airTravelAmount))) {
+        this.airTravelDanger = true;
       } else {
-        this.parkingDanger = false;
+        this.airTravelDanger = false;
       }
     },
     validateOtherTotal: function () {
@@ -450,11 +434,19 @@ export default {
       }
       this.calculate();
     },
-    parkingSelectHandler: function () {
-      if (this.parkingAmount > 0) {
-        this.parkingSelected = true;
+    airTravelSelectHandler: function () {
+      if (this.airTravelAmount > 0) {
+        this.airTravelSelected = true;
       } else {
-        this.parkingSelected = false;
+        this.airTravelSelected = false;
+      }
+      this.calculate();
+    },
+    railTravelSelectHandler: function () {
+      if (this.railTravelAmount > 0) {
+        this.railTravelSelected = true;
+      } else {
+        this.railTravelSelected = false;
       }
       this.calculate();
     },
@@ -604,12 +596,12 @@ export default {
         this.$store.commit('updateCarRentalSelected', value)
       }
     },
-    parkingSelected: {
+    airTravelSelected: {
       get() {
-        return this.$store.state.estimate.parking.selected
+        return this.$store.state.estimate.airTravel.selected
       },
       set(value) {
-        this.$store.commit('updateParkingSelected', value)
+        this.$store.commit('updateAirTravelSelected', value)
       }
     },
     otherSelected: {
@@ -731,13 +723,22 @@ export default {
         this.$store.commit('updatePersonalVehicleKilometres', parseFloat(value))
       }
     },
-    parkingAmount: {
+    airTravelAmount: {
       get() {
-        return this.$store.state.estimate.parking.amount
+        return this.$store.state.estimate.airTravel.amount
       },
       set(value) {
         if (isNaN(parseFloat(value))) { value = 0 }
-        this.$store.commit('updateParkingAmount', parseFloat(value))
+        this.$store.commit('updateAirTravelAmount', parseFloat(value))
+      }
+    },
+    railTravelAmount: {
+      get() {
+        return this.$store.state.estimate.railTravel.amount
+      },
+      set(value) {
+        if (isNaN(parseFloat(value))) { value = 0 }
+        this.$store.commit('updateRailTravelAmount', parseFloat(value))
       }
     },
     calculatedTotal: {

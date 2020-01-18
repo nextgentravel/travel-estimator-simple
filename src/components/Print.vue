@@ -62,23 +62,27 @@
                 </tr>
                 <tr>
                     <td scope="row"><strong>Transportation</strong></td>
-                    <td>${{this.store.estimate.transportation.amount.toFixed(2)}}</td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <td scope="row"><strong>Taxi</strong></td>
-                    <td>${{this.store.estimate.taxi.amount.toFixed(2)}}</td>
+                    <td scope="row" style="padding-left: 4em;"><strong>Air Travel</strong></td>
+                    <td>${{this.store.estimate.airTravel.amount.toFixed(2)}}</td>
                 </tr>
                 <tr>
-                    <td scope="row"><strong>Personal Vehicle</strong></td>
-                    <td>${{this.store.estimate.personalVehicle.amount.toFixed(2)}}</td>
+                    <td scope="row" style="padding-left: 4em;"><strong>Rail</strong></td>
+                    <td>${{this.store.estimate.railTravel.amount.toFixed(2)}}</td>
                 </tr>
                 <tr>
-                    <td scope="row"><strong>Car Rental</strong></td>
+                    <td scope="row" style="padding-left: 4em;"><strong>Car Rental</strong></td>
                     <td>${{this.store.estimate.carRental.amount.toFixed(2)}}</td>
                 </tr>
                 <tr>
-                    <td scope="row"><strong>Parking</strong></td>
-                    <td>${{this.store.estimate.parking.amount.toFixed(2)}}</td>
+                    <td scope="row" style="padding-left: 4em;"><strong>Taxi</strong></td>
+                    <td>${{this.store.estimate.taxi.amount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td scope="row" style="padding-left: 4em;"><strong>Personal Vehicle</strong></td>
+                    <td>${{this.store.estimate.personalVehicle.amount.toFixed(2)}}</td>
                 </tr>
                 <tr>
                     <td scope="row">
