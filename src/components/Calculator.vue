@@ -85,7 +85,7 @@
                     <label class="form-check-label" for="airTravelSelected">Air Travel</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><input @input="airTravelSelectHandler" v-model="airTravelAmount" class="form-control" v-bind:class="{ danger: airTravelDanger }" /></div>
+                <div class="col-sm-2"><input @input="airTravelSelectHandler" v-model="airTravelAmount" class="form-control"  /></div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-1"></div>
@@ -94,7 +94,7 @@
                     <label class="form-check-label" for="railTravelSelected">Rail</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><input @input="railTravelSelectHandler" v-model="railTravelAmount" class="form-control" v-bind:class="{ danger: railTravelDanger }" /></div>
+                <div class="col-sm-2"><input @input="railTravelSelectHandler" v-model="railTravelAmount" class="form-control" /></div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-1"></div>
@@ -103,7 +103,7 @@
                     <label class="form-check-label" for="carRentalSelected">Car Rental</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><input @input="carRentalSelectHandler" v-model="carRentalAmount" class="form-control" v-bind:class="{ danger: carRentalDanger }" /></div>
+                <div class="col-sm-2"><input @input="carRentalSelectHandler" v-model="carRentalAmount" class="form-control" /></div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-1"></div>
@@ -112,7 +112,7 @@
                     <label class="form-check-label" for="taxiSelected">Taxi</label>
                   </div>
                 </div>
-                <div class="col-sm-2"><input @input="taxiSelectHandler" v-model="taxiAmount" class="form-control" v-bind:class="{ danger: taxiDanger }" /></div>
+                <div class="col-sm-2"><input @input="taxiSelectHandler" v-model="taxiAmount" class="form-control" /></div>
               </div>
               <div v-if="taxiDanger" class="row" style="margin-left: 5px; margin-top: -25px; margin-bottom: 10px; align-items: center;">
                 <div class="col-sm-12">
@@ -129,7 +129,7 @@
                 <div class="col-sm-4">
                   <a href="#" @click.prevent="togglePersonalVehicleModal()" style="float: right;">Help me estimate this</a>
                 </div>
-                <div class="col-sm-2"><input @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
+                <div class="col-sm-2"><input @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" /></div>
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-5">
@@ -139,7 +139,7 @@
                   </div>
                 </div>
                 <div class="col-sm-5"><input v-model="otherDescription" placeholder="Enter description" class="form-control" /></div>
-                <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" v-bind:class="{ danger: otherDanger }" /></div>
+                <div class="col-sm-2"><input @input="otherSelectHandler" v-model="otherAmount" class="form-control" /></div>
               </div>
               <div v-if="otherDanger" class="row" style="margin-left: 5px; margin-top: -15px; align-items: center;">
                 <div class="col-sm-12">
