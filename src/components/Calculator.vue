@@ -717,7 +717,6 @@ export default {
     },
     selectedKilometricRate: {
       get() {
-        console.log(this.$store.state.estimate.personalVehicle.selectedRate)
         return this.$store.state.estimate.personalVehicle.selectedRate
       },
       set(value) {

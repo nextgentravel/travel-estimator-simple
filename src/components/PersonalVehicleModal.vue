@@ -10,14 +10,14 @@
         </div>
         <div class="modal-body" style="margin-top: 10px;">
             <form class="form-inline">
-                <input @input="calculate" class="form-control" v-model="kilometres" />
+                <input @input="calculate" class="form-control" v-model="kilometres" style="width: 7em;" />
                 <span style="padding: .5em;">
                     kilometres in your vehicle registered in
                 </span>
-                <select id="inputState" class="form-control" v-model="selectedRate">
+                <select @change="calculate" id="inputState" class="form-control" v-model="selectedRate">
                     <option v-for="(value, name) in personalVehicle.rates" v-bind:key="name" v-bind:value="value">{{name}}</option>
                 </select>
-                <span style="padding: .5em;">at {{selectedRate}} cents per kilometre</span>
+                <span style="padding: .5em;">at <strong>{{selectedRate}} cents</strong> per kilometre</span>
             </form>
         </div>
         <div class="modal-footer">
@@ -37,7 +37,7 @@
     mounted() {},
     methods: {
         calculate() {
-            this.amount = this.kilometres * (this.selectedRate / 100);
+            this.amount = (this.kilometres * (this.selectedRate / 100));
         }
     },
     computed: {
