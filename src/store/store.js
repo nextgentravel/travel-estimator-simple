@@ -12,6 +12,7 @@ const getDefaultState = () => {
         tripCategory: '',
         tripWhy: '',
         showMealsModal: false,
+        showPersonalVehicleModal: false,
         showExportModal: false,
         cities: [],
         origin: null,
