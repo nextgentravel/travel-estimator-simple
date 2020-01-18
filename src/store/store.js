@@ -141,6 +141,9 @@ export default new Vuex.Store({
     updateShowMealsModal (state, showMealsModal) {
         state.showMealsModal = showMealsModal
     },
+    updateShowPersonalVehicleModal (state, showPersonalVehicleModal) {
+        state.showPersonalVehicleModal = showPersonalVehicleModal
+    },
     updateTripRates (state, tripRates) {
         state.tripRates = tripRates
     },

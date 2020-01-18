@@ -3,6 +3,7 @@
     <Header />
     <div class="container">
       <MealsModal ref="modalclose" v-show="showMealsModal" :updateMealsAndAllowances="this.calculateMealsIncidentals" />
+      <PersonalVehicleModal ref="modalclose" v-show="showPersonalVehicleModal" />
       <ExportModal v-if="showExportModal" />
       <br>
       <h2>{{origin.slice(0,-3)}} to {{destination.slice(0,-3)}}, {{dateFormat()}}</h2>
@@ -120,10 +121,13 @@
               </div>
               <div class="row" style="margin-bottom: 15px; align-items: center;">
                 <div class="col-sm-1"></div>
-                <div class="col-sm-9">
+                <div class="col-sm-5">
                   <div class="form-check">
                     <label class="form-check-label" for="personalVehicleSelected">Personal Vehicle</label>
                   </div>
+                </div>
+                <div class="col-sm-4">
+                  <a href="#" @click.prevent="togglePersonalVehicleModal()" style="float: right;">Help me estimate this</a>
                 </div>
                 <div class="col-sm-2"><input @input="personalVehicleSelectHandler" v-model="personalVehicleAmount" class="form-control" v-bind:class="{ danger: personalVehicleDanger }" /></div>
               </div>
@@ -180,6 +184,7 @@
 <script>
 import moment from 'moment'
 import MealsModal from './MealsModal'
+import PersonalVehicleModal from './PersonalVehicleModal'
 import ExportModal from './ExportModal'
 import Header from './Header'
 import Footer from './Footer'
@@ -187,6 +192,7 @@ export default {
   name: 'Calculator',
   components: {
     MealsModal,
+    PersonalVehicleModal,
     ExportModal,
     Header,
     Footer,
@@ -216,6 +222,12 @@ export default {
       this.$nextTick(() => {
         this.$refs.modalclose.$el.querySelector('input').focus();
       })
+    },
+    togglePersonalVehicleModal: function () {
+      this.showPersonalVehicleModal = true;
+      // this.$nextTick(() => {
+      //   this.$refs.modalclose.$el.querySelector('input').focus();
+      // })
     },
     toggleExportModal: function () {
       this.showExportModal = true;
@@ -514,6 +526,14 @@ export default {
       },
       set(value) {
         this.$store.commit('updateShowMealsModal', value)
+      }
+    },
+    showPersonalVehicleModal: {
+      get() {
+        return this.$store.state.showPersonalVehicleModal
+      },
+      set(value) {
+        this.$store.commit('updateShowPersonalVehicleModal', value)
       }
     },
     showExportModal: {
