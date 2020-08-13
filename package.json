@@ -22,7 +22,7 @@
     "jspdf": "^1.5.3",
     "luxon": "^1.19.3",
     "moment": "^2.24.0",
-    "serialize-javascript": "^2.1.2",
+    "serialize-javascript": "^3.1.0",
     "unorm": "^1.6.0",
     "vue": "^2.6.10",
     "vue-airbnb-style-datepicker": "^2.7.1",
